@@ -9,6 +9,8 @@ face: 関係なし
 risk: 5
 risk_label: 引っかかると大きな損になり、取り戻すのが難しい
 updated: 2026-10-28
+books:
+- 安全な金融取引のための 金融犯罪の手口と対策 | 芳賀恒人(経済法令研究会) | 978-4-7668-2520-6
 sources:
 - 消費者庁「SNSなどを通じた『もうけ話』にご注意ください」 | https://www.caa.go.jp/policies/policy/consumer_policy/caution/caution_036
 - 国民生活センター「SNSをきっかけとした消費者トラブル」(2020年4月9日発表) | https://www.kokusen.go.jp/news/data/n-20200409_1.html

@@ -9,6 +9,8 @@ face: 関係なし
 risk: 5
 risk_label: 犯罪に加わることになり、逮捕や脅しにつながる。取り返しがつきにくい
 updated: 2026-10-28
+books:
+- 闇バイト 凶悪化する若者のリアル | 廣末登(祥伝社) | 978-4-396-11683-5
 sources:
 - 京都府警察「「闇バイト」にご注意ください」 | https://www.pref.kyoto.jp/fukei/anzen/seiki_t/bohan/r7y.html
 - 栃木県警察「「強盗」・「闇バイト」にかかわらない!」(2025年4月24日更新) | https://www.pref.tochigi.lg.jp/keisatu/n11/seikatu/yamibaito.html

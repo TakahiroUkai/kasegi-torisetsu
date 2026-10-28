@@ -78,6 +78,8 @@ for p in contents:
         for w in ["向いている", "向いていない", "おすすめ"]:
             if w in body:
                 err(f"cautionページに {w!r}: {p.name}")
+        if not re.search(r"^books:", fm, re.M):
+            warn(f"caution ページに紹介本がない(ISBNを確かめた本を1〜2冊): {p.name}")
         if "見分けやすい人・気をつけたい人" not in body:
             err(f"caution見出しなし: {p.name}")
         if ":::auto" in body or "ai_auto" in fm:

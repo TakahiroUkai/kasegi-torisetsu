@@ -388,7 +388,7 @@ def render_method(m):
     books = ""
     if m.get("books"):
         books = (
-            '<section class="books"><h2>この手法を紹介している本</h2><ul class="book-list">'
+            f'<section class="books"><h2>{"被害を防ぐために、さらに知りたい人向けの本" if m.get("category") == "caution" else "この手法を紹介している本"}</h2><ul class="book-list">'
             + "".join(book_item(b) for b in m["books"])
             + "</ul></section>"
         )
