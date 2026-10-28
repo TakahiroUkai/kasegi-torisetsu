@@ -92,9 +92,20 @@ def to_blocks(md):
             blocks.append((kind, items))
         para, items, kind = [], [], None
 
+    fence = None
     for line in md.strip("\n").splitlines():
         s = line.strip()
-        if not s:
+        if fence is not None:
+            if s == ":::":
+                blocks.append(("fig", (fence[0], fence[1])))
+                fence = None
+            elif s:
+                fence[1].append(s)
+            continue
+        if s.startswith(":::"):
+            flush()
+            fence = (s[3:].strip(), [])
+        elif not s:
             flush()
         elif s.startswith("## "):
             flush(); blocks.append(("h2", s[3:]))
@@ -116,8 +127,66 @@ def to_blocks(md):
     return blocks
 
 
+def num(v):
+    return float(re.sub(r"[^0-9.]", "", v) or 0)
+
+
+def render_fig(head, lines):
+    """図解ブロック。書式は README ではなく運営メモ(Artifact)に記載。
+    :::flow 見出し       行: 見出し | 補足          (手順・しくみの流れ)
+    :::yen 見出し         行: ラベル | 名前:金額 | 名前:金額 ...  (金額の内訳の帯グラフ)
+    :::calc 見出し        行: [×=−+] ラベル | 値      (掛け算・引き算の計算の流れ)
+    """
+    kind, _, title = head.partition(" ")
+    cap = f"<figcaption>{inline(title)}</figcaption>" if title else ""
+    rows = [[c.strip() for c in l.split("|")] for l in lines]
+    if kind == "flow":
+        li = "".join(
+            f"<li><strong>{inline(r[0])}</strong>" + (f"<span>{inline(r[1])}</span>" if len(r) > 1 and r[1] else "") + "</li>"
+            for r in rows
+        )
+        return f'<figure class="fig fig-flow">{cap}<ol class="flow">{li}</ol></figure>'
+    if kind == "yen":
+        parsed = []
+        for r in rows:
+            segs = []
+            for c in r[1:]:
+                n, _, v = c.partition(":")
+                segs.append((n.strip(), num(v)))
+            parsed.append((r[0], segs))
+        top = max((sum(v for _, v in s) for _, s in parsed), default=1) or 1
+        out = []
+        for label, segs in parsed:
+            total = sum(v for _, v in segs)
+            cells = "".join(
+                f'<i class="seg{i}" style="width:{v / top * 100:.1f}%"></i>' for i, (_, v) in enumerate(segs)
+            )
+            legend = "".join(
+                f'<li><i class="sw seg{i}"></i>{esc(n)} {v:,.0f}円</li>' for i, (n, v) in enumerate(segs)
+            )
+            out.append(
+                f'<div class="bar-row"><p class="bar-label">{inline(label)}<span>合計 {total:,.0f}円</span></p>'
+                f'<div class="bar" aria-hidden="true">{cells}</div><ul class="legend">{legend}</ul></div>'
+            )
+        return f'<figure class="fig fig-yen">{cap}{"".join(out)}</figure>'
+    if kind == "calc":
+        li = []
+        for r in rows:
+            label = r[0]
+            op = ""
+            if label and label[0] in "×=−+":
+                op, label = label[0], label[1:].strip()
+            val = r[1] if len(r) > 1 else ""
+            cls = ' class="res"' if op == "=" else ""
+            li.append(f'<li{cls}><b class="op" aria-hidden="true">{op}</b><span class="lb">{inline(label)}</span><span class="vl">{inline(val)}</span></li>')
+        return f'<figure class="fig fig-calc">{cap}<ul class="calc">{"".join(li)}</ul></figure>'
+    raise SystemExit(f"不明な図の種類: {kind}")
+
+
 def block_html(b):
     t, c = b
+    if t == "fig":
+        return render_fig(*c)
     if t == "h3":
         return f"<h3>{inline(c)}</h3>"
     if t == "p":
@@ -239,7 +308,6 @@ def layout(title, desc, body, root, show_disclosure):
   <div class="wrap">
     <p><strong>ご利用にあたって</strong> このサイトは一般的な情報の整理であり、収益を保証するものでも、投資の助言や勧誘でもありません。金額・手数料・規約は変わることがあるため、始める前に必ず公式の情報を確認してください。最終的な判断はご自身の責任でお願いします。</p>
     {disclosure}
-    <p>{esc(name)} は1日1手法ずつ、ページを追加しています。</p>
   </div>
 </footer>
 </body>
