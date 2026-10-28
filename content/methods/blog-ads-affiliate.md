@@ -11,6 +11,9 @@ risk_label: お金の損は小さい。主なリスクは、書いた時間が�
 ai_auto: 3
 ai_auto_label: 調べものや下書きはAIに任せやすい。事実の確認と公開は人が行う。投稿を自動化する公式の窓口は確認できなかった
 updated: 2026-10-28
+books:
+- 「ゆる副業」のはじめかた アフィリエイトブログ スキマ時間で自分の「好き」をお金に変える! | ヒトデ(翔泳社) | 978-4-7981-6995-8
+- アフィリエイトブログを作りながら覚えるWordPress 入門 | Editroom:H(あすパブリッシング) | 978-4-911151-01-3
 sources:
 - Google AdSense ヘルプ「AdSense の収益分配」 | https://support.google.com/adsense/answer/180195?hl=ja
 - Google AdSense ヘルプ「AdSense のお支払いについて」(支払い時期、PINと本人確認) | https://support.google.com/adsense/answer/1709858?hl=ja
