@@ -9,6 +9,7 @@ errors, warns = [], []
 def err(m): errors.append(m)
 def warn(m): warns.append(m)
 
+subprocess.run([sys.executable, "build.py"], cwd=ROOT, capture_output=True)
 site = json.loads((ROOT / "config/site.json").read_text(encoding="utf-8"))
 docs = sorted((ROOT / "docs").rglob("*.html"))
 contents = sorted((ROOT / "content/methods").glob("*.md"))

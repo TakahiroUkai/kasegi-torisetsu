@@ -328,6 +328,7 @@ def layout(title, desc, body, root, show_disclosure):
         parts = []
         if affiliate_on():
             parts.append("このサイトには、書籍紹介のアフィリエイトリンク(広告)が含まれます。リンク先で購入されると、運営者に報酬が入ることがあります。")
+            parts.append(f"Amazonのアソシエイトとして、{name}は適格販売により収入を得ています。")
         if CONFIG.get("ads", {}).get("enabled"):
             parts.append("広告枠を設けています。")
         if parts:
