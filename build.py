@@ -337,6 +337,7 @@ def layout(title, desc, body, root, show_disclosure):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>{esc(full)}</title>
 <meta name="description" content="{esc(desc)}">
 <meta property="og:title" content="{esc(full)}">
@@ -398,8 +399,11 @@ def render_method(m):
         )
         + "</ul></section>"
     )
-    page = f"""<div class="wrap doc">
+    is_caution = m["category"] == "caution"
+    banner = '<p class="caution-banner">稼ぎ方ではなく、手を出してはいけない話(怪しい話・違法な話)の解説です</p>' if is_caution else ""
+    page = f"""<div class="wrap doc{" cat-caution" if is_caution else ""}">
   <div class="doc-head">
+    {banner}
     <p class="crumb"><a href="../">もくじ</a></p>
     <h1>{esc(m["title"])}</h1>
     <p class="summary">{esc(m["summary"])}</p>
@@ -440,8 +444,11 @@ def render_index(methods):
             lst = f'<ul class="toc-list">{rows}</ul>'
         else:
             lst = '<p class="toc-empty">これから追加します。</p>'
+        note = ""
+        if c["id"] == "caution":
+            note = '<p class="caution-note">ここから先は、稼ぎ方ではありません。詐欺・違法行為・それに近い話を、見分けて避けるための解説です。</p>'
         toc.append(
-            f'<div class="toc-group"><h3>{esc(c["name"])}</h3><p class="desc">{esc(c["desc"])}</p>{lst}</div>'
+            f'<div class="toc-group{" cat-caution" if c["id"] == "caution" else ""}"><h3>{esc(c["name"])}</h3>{note}<p class="desc">{esc(c["desc"])}</p>{lst}</div>'
         )
 
     body = f"""<div class="wrap">

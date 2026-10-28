@@ -13,36 +13,7 @@
   --amber-wash: #faf4e0;
   --good: #2f6b55;
   --measure: 40rem;
-}
-
-:root[data-theme="dark"] {
-  --paper: #151617;
-  --sheet: #1e1f21;
-  --ink: #ececec;
-  --ink-soft: #a6a9ad;
-  --edge: #8a8d92;
-  --blue: #8fb3cc;
-  --blue-wash: #26292c;
-  --rule: #38393c;
-  --amber: #e3a600;
-  --amber-wash: #2b2714;
-  --good: #7cc4a6;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #151617;
-    --sheet: #1e1f21;
-    --ink: #ececec;
-    --ink-soft: #a6a9ad;
-    --edge: #8a8d92;
-    --blue: #8fb3cc;
-    --blue-wash: #26292c;
-    --rule: #38393c;
-    --amber: #e3a600;
-    --amber-wash: #2b2714;
-    --good: #7cc4a6;
-  }
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; }
@@ -332,6 +303,16 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
 .flow li.is-tool { border-left-color: var(--ink-soft); }
 .flow li.is-human { border-left-color: var(--amber); background: var(--amber-wash); }
 .doc .fig .auto-legend { display: flex; flex-wrap: wrap; gap: 0 0.875rem; margin: 0 0 0.875rem; font-size: 0.8125rem; line-height: 1.7; color: var(--ink-soft); }
+
+/* 手を出してはいけない話(怪しい・違法な話)は、配色を変えて区別する */
+.cat-caution { --blue: #8f3a2e; --blue-wash: #f6e8e5; --amber-wash: #fbf0ec; }
+.toc-group.cat-caution { margin-top: 3rem; padding-top: 1rem; border-top: 0.875rem solid transparent; border-image: repeating-linear-gradient(-45deg, var(--ink) 0 12px, var(--amber) 12px 24px) 1; }
+.toc-group.cat-caution h3 { background: var(--blue-wash); border-left-color: var(--blue); color: var(--blue); }
+.toc-group.cat-caution .toc-row a { color: var(--blue); }
+.caution-note { margin: 1.5rem 0 0; font-size: 0.9375rem; color: var(--ink-soft); }
+.caution-banner { margin: 0 0 1rem; padding: 0.5rem 0.75rem; background: var(--blue); color: #fff; font-weight: 700; font-size: 0.9375rem; line-height: 1.6; }
+.doc.cat-caution .doc-head h1 { color: var(--blue); }
+.doc.cat-caution .spec th { background: var(--blue-wash); }
 
 /* 広告枠 */
 .ad-slot { margin: 2.25rem 0 0; padding: 0.5rem 0.75rem 0.75rem; border: 1px dashed var(--rule); background: var(--sheet); min-height: 7rem; text-align: center; }
