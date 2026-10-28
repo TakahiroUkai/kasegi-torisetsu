@@ -15,6 +15,11 @@
     "category": "content"
   },
   {
+    "slug": "dark-baito",
+    "title": "闇バイト(高額バイトをうたう犯罪の勧誘)",
+    "category": "caution"
+  },
+  {
     "slug": "app-development",
     "title": "アプリの個人開発",
     "category": "product"
@@ -30,6 +35,11 @@
     "category": "content"
   },
   {
+    "slug": "account-trading",
+    "title": "口座の売買・貸し(口座を売ると犯罪になる)",
+    "category": "caution"
+  },
+  {
     "slug": "instagram",
     "title": "Instagram運用",
     "category": "content"
@@ -38,6 +48,11 @@
     "slug": "web-writer",
     "title": "Webライター",
     "category": "skill"
+  },
+  {
+    "slug": "pyramid-scheme",
+    "title": "ネズミ講(無限連鎖講)",
+    "category": "caution"
   },
   {
     "slug": "index-investing",
@@ -53,6 +68,11 @@
     "slug": "reselling",
     "title": "せどり・転売",
     "category": "goods"
+  },
+  {
+    "slug": "ticket-resale",
+    "title": "チケットの不正転売と、無許可の転売",
+    "category": "caution"
   },
   {
     "slug": "flea-market",
@@ -80,6 +100,11 @@
     "category": "goods"
   },
   {
+    "slug": "sim-selling",
+    "title": "携帯・SIMの売買と名義貸し",
+    "category": "caution"
+  },
+  {
     "slug": "kindle-publishing",
     "title": "Kindle出版",
     "category": "product"
@@ -103,6 +128,11 @@
     "slug": "online-coaching",
     "title": "オンライン講師・コーチング",
     "category": "skill"
+  },
+  {
+    "slug": "pirated-content",
+    "title": "海賊版・違法アップロードで稼ぐ話",
+    "category": "caution"
   },
   {
     "slug": "web-design",
@@ -140,6 +170,11 @@
     "category": "product"
   },
   {
+    "slug": "cash-conversion",
+    "title": "クレジットカードの現金化・違法な高金利の貸付",
+    "category": "caution"
+  },
+  {
     "slug": "online-course",
     "title": "オンライン講座の販売",
     "category": "product"
@@ -158,6 +193,11 @@
     "slug": "podcast",
     "title": "ポッドキャスト",
     "category": "content"
+  },
+  {
+    "slug": "unlicensed-advice",
+    "title": "無登録の投資助言・投資代行",
+    "category": "caution"
   },
   {
     "slug": "crowdsourcing",
