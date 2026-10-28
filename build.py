@@ -455,7 +455,7 @@ def render_index(methods):
   <div class="cover">
     <h1>{esc(CONFIG["name"])}</h1>
     <p class="sub">{esc(CONFIG["subtitle"])}</p>
-    <p class="lead">副業や個人事業で稼ぐ方法は、数が多く、怪しい話も混ざっています。ここでは1日1つずつ、手法を取扱説明書の形で整理します。どの手法も同じ順番(しくみ、向き不向き、リスク、始め方)で書くので、見比べて選べます。</p>
+    <p class="lead">副業や個人事業で稼ぐ方法は、数が多く、怪しい話も混ざっています。ここでは手法を、取扱説明書の形で整理します。どの手法も同じ順番(しくみ、向き不向き、リスク、始め方)で書くので、見比べて選べます。</p>
     <div class="howto">
       <h2>この説明書の読み方</h2>
       <dl>
@@ -468,7 +468,7 @@ def render_index(methods):
   </div>
   <section class="toc">
     <h2>もくじ</h2>
-    <p class="toc-count">掲載中 {done}件 / 追加予定を含め {total}件。毎日1件ずつ増えます。</p>
+    <p class="toc-count">掲載中 {done}件 / 追加予定を含め {total}件。</p>
     {"".join(toc)}
   </section>
   {ad_slot()}
