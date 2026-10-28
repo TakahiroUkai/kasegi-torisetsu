@@ -400,6 +400,7 @@ def render_method(m):
         + "</ul></section>"
     )
     is_caution = m["category"] == "caution"
+    quiz_cta = '<p class="quiz-link"><a href="../quiz/">クイズ: 怪しい話に気づけるか、選択式で確かめる</a></p>' if m["category"] == "caution" else ""
     banner = '<p class="caution-banner">稼ぎ方ではなく、手を出してはいけない話(怪しい話・違法な話)の解説です</p>' if is_caution else ""
     page = f"""<div class="wrap doc{" cat-caution" if is_caution else ""}">
   <div class="doc-head">
@@ -415,6 +416,7 @@ def render_method(m):
   {ad_slot()}
   {books}
   {sources}
+  {quiz_cta}
   <p style="margin-top:2.5rem"><a href="../">もくじにもどる</a></p>
 </div>"""
     return layout(m["title"], m["summary"], page, "../", False)
@@ -447,8 +449,9 @@ def render_index(methods):
         note = ""
         if c["id"] == "caution":
             note = '<p class="caution-note">ここから先は、稼ぎ方ではありません。詐欺・違法行為・それに近い話を、見分けて避けるための解説です。</p>'
+        qlink = '<p class="quiz-link"><a href="quiz/">クイズ: 怪しい話に気づけるか、選択式で確かめる</a></p>' if c["id"] == "caution" else ""
         toc.append(
-            f'<div class="toc-group{" cat-caution" if c["id"] == "caution" else ""}"><h3>{esc(c["name"])}</h3>{note}<p class="desc">{esc(c["desc"])}</p>{lst}</div>'
+            f'<div class="toc-group{" cat-caution" if c["id"] == "caution" else ""}"><h3>{esc(c["name"])}</h3>{note}<p class="desc">{esc(c["desc"])}</p>{lst}{qlink}</div>'
         )
 
     body = f"""<div class="wrap">
@@ -476,6 +479,85 @@ def render_index(methods):
     return layout(CONFIG["name"], CONFIG["description"], body, "", False)
 
 
+QUIZ_JS = r"""
+(function () {
+  var Q = JSON.parse(document.getElementById('quiz-data').textContent);
+  var root = document.getElementById('quiz');
+  var idx = 0, score = 0, order = [];
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function start() { idx = 0; score = 0; order = shuffle(Q.map(function (_, i) { return i; })); show(); }
+  function show() {
+    if (idx >= order.length) return result();
+    var q = Q[order[idx]];
+    var opts = shuffle(q.options.map(function (t, i) { return { t: t, ok: i === q.answer }; }));
+    var h = '<p class="q-count">' + (idx + 1) + ' / ' + order.length + ' 問目</p>' +
+      '<p class="q-text" id="q-text">' + esc(q.scenario) + '</p>' +
+      '<div class="q-opts" role="group" aria-labelledby="q-text">' + opts.map(function (o, i) {
+        return '<button type="button" class="q-opt" data-i="' + i + '">' + esc(o.t) + '</button>'; }).join('') + '</div>' +
+      '<div class="q-fb" id="q-fb" aria-live="polite"></div>';
+    root.innerHTML = h;
+    Array.prototype.forEach.call(root.querySelectorAll('.q-opt'), function (btn) {
+      btn.addEventListener('click', function () { answer(q, opts, parseInt(btn.getAttribute('data-i'), 10)); });
+    });
+  }
+  function answer(q, opts, pick) {
+    var btns = root.querySelectorAll('.q-opt');
+    Array.prototype.forEach.call(btns, function (b, i) {
+      b.disabled = true;
+      if (opts[i].ok) b.className += ' is-ok';
+      else if (i === pick) b.className += ' is-ng';
+    });
+    var ok = opts[pick].ok;
+    if (ok) score++;
+    var last = idx + 1 >= order.length;
+    var src = q.source ? '<p class="q-src">出典: <a href="' + esc(q.source[1]) + '" rel="noopener" target="_blank">' + esc(q.source[0]) + '</a></p>' : '';
+    var fb = document.getElementById('q-fb');
+    fb.innerHTML = '<p class="q-verdict ' + (ok ? 'ok' : 'ng') + '">' + (ok ? '正解です。' : '惜しい。正解は、色のついた選択肢です。') + '</p>' +
+      '<p>' + esc(q.explain) + '</p>' + src +
+      '<button type="button" class="q-next" id="q-next">' + (last ? '結果を見る' : '次の問題へ') + '</button>';
+    document.getElementById('q-next').addEventListener('click', function () { idx++; show(); window.scrollTo(0, root.getBoundingClientRect().top + window.pageYOffset - 16); });
+    document.getElementById('q-next').focus();
+  }
+  function result() {
+    var n = order.length, msg;
+    if (score === n) msg = '全問正解です。どの話にも、まず止まって確かめる習慣が身についています。';
+    else if (score >= n * 0.7) msg = 'よくできています。間違えた問題の解説を、もう一度見ておきましょう。';
+    else msg = '見分けるポイントは、これから身につけられます。解説と出典を読んで、もう一度挑戦してみてください。';
+    root.innerHTML = '<p class="q-count">結果</p><p class="q-score"><strong>' + score + '</strong> / ' + n + ' 問正解</p><p>' + msg + '</p>' +
+      '<p>困ったときは、消費者ホットライン「188」(最寄りの消費生活センターなどにつながります)や、警察相談専用窓口「#9110」に相談できます。</p>' +
+      '<button type="button" class="q-next" id="q-again">もう一度挑戦する</button>';
+    document.getElementById('q-again').addEventListener('click', start);
+  }
+  start();
+})();
+"""
+
+
+def render_quiz():
+    quiz = json.loads((ROOT / "data" / "quiz.json").read_text(encoding="utf-8"))
+    data = json.dumps(quiz, ensure_ascii=False).replace("</", "<\\/")
+    body = f"""<div class="wrap doc cat-caution">
+  <div class="doc-head">
+    <p class="caution-banner">稼ぎ方ではなく、手を出してはいけない話(怪しい話・違法な話)を見分けるためのクイズです</p>
+    <p class="crumb"><a href="../">もくじ</a></p>
+    <h1>怪しい話に気づけるかクイズ</h1>
+    <p class="summary">SNSの広告やダイレクトメッセージで届く「もうけ話」に出会ったとき、どう動けばよいかを、{len(quiz)}問で確かめます。選択肢から選ぶ形式で、答えるたびに、解説と出典が出ます。</p>
+  </div>
+  <section class="quiz-box" aria-label="クイズ">
+    <div id="quiz"></div>
+    <noscript><p>このクイズは、JavaScriptを有効にすると使えます。</p></noscript>
+  </section>
+  {ad_slot()}
+  <p class="quiz-note">問題の内容は、消費者庁・国民生活センター・警察庁・金融庁などの公開情報をもとにしています。個別の相談は、消費者ホットライン「188」などの窓口にしてください。</p>
+  <p style="margin-top:2.5rem"><a href="../methods/suspicious-claims.html">「怪しい稼ぎ話の見分け方」のページを読む</a></p>
+  <p><a href="../">もくじにもどる</a></p>
+</div>
+<script type="application/json" id="quiz-data">{data}</script>
+<script>{QUIZ_JS}</script>"""
+    return layout("怪しい話に気づけるかクイズ", "SNSの広告やDMで届くもうけ話を見分けられるかを、選択式のクイズで確かめます。答えるたびに、解説と出典が出ます。", body, "../", False)
+
+
 def build():
     methods = load_methods()
     known = {q["slug"] for q in QUEUE}
@@ -488,6 +570,8 @@ def build():
             old.unlink()
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
     (DOCS / "index.html").write_text(render_index(methods), encoding="utf-8")
+    (DOCS / "quiz").mkdir(parents=True, exist_ok=True)
+    (DOCS / "quiz" / "index.html").write_text(render_quiz(), encoding="utf-8")
     for slug, m in methods.items():
         (DOCS / "methods" / f"{slug}.html").write_text(render_method(m), encoding="utf-8")
     print(f"生成しました: もくじ + 手法ページ {len(methods)}件")

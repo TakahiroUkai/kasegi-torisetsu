@@ -314,6 +314,32 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
 .doc.cat-caution .doc-head h1 { color: var(--blue); }
 .doc.cat-caution .spec th { background: var(--blue-wash); }
 
+/* クイズ */
+.quiz-box { margin-top: 1.5rem; padding: 1rem; background: var(--sheet); border: 2px solid var(--edge); }
+.q-count { margin: 0 0 0.5rem !important; font-size: 0.875rem; font-weight: 700; color: var(--blue); }
+.q-text { margin: 0 !important; font-size: 1.0625rem; font-weight: 700; line-height: 1.8; }
+.q-opts { display: grid; gap: 0.625rem; margin-top: 1rem; }
+.q-opt { text-align: left; font: inherit; line-height: 1.7; padding: 0.75rem 0.875rem; background: var(--paper); color: var(--ink); border: 2px solid var(--rule); border-radius: 0.375rem; cursor: pointer; }
+.q-opt:hover:not(:disabled) { border-color: var(--edge); }
+.q-opt:focus-visible, .q-next:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+.q-opt:disabled { cursor: default; color: var(--ink); }
+.q-opt.is-ok { border-color: var(--good); background: #e6f1ec; font-weight: 700; }
+.q-opt.is-ng { border-color: var(--blue); background: var(--blue-wash); }
+.q-opt.is-ok::before { content: "正解 "; color: var(--good); }
+.q-opt.is-ng::before { content: "あなたの答え "; color: var(--blue); }
+.q-fb { margin-top: 1rem; font-size: 0.9375rem; line-height: 1.8; }
+.q-fb p { margin: 0.5rem 0 0; }
+.q-verdict { font-weight: 700; font-size: 1rem; }
+.q-verdict.ok { color: var(--good); }
+.q-verdict.ng { color: var(--blue); }
+.q-src { font-size: 0.8125rem; color: var(--ink-soft); }
+.q-next { margin-top: 1rem; font: inherit; font-weight: 700; padding: 0.625rem 1.25rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 0.375rem; cursor: pointer; }
+.q-score { margin: 0 !important; font-size: 1.125rem; }
+.q-score strong { font-size: 2rem; }
+.quiz-note { margin-top: 1.5rem !important; font-size: 0.8125rem; color: var(--ink-soft); }
+.quiz-link { margin: 1rem 0 0; }
+.quiz-link a { font-weight: 700; }
+
 /* 広告枠 */
 .ad-slot { margin: 2.25rem 0 0; padding: 0.5rem 0.75rem 0.75rem; border: 1px dashed var(--rule); background: var(--sheet); min-height: 7rem; text-align: center; }
 .ad-slot::before { content: "広告"; display: block; font-size: 0.75rem; color: var(--ink-soft); text-align: left; }
