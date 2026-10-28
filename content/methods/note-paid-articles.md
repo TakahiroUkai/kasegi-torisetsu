@@ -14,6 +14,7 @@ updated: 2026-10-28
 books:
 - noteで年収1000万円 | Sai(フォレスト出版) | 978-4-86680-347-0
 - 2億円を売り上げたプロが教える note×AI 最強の副業 | らっこ(KADOKAWA) | 978-4-04-607773-8
+- note完全マニュアル[第3版] | 八木重和(秀和システム新社) | 978-4-7980-7727-7
 sources:
 - note ヘルプ「コンテンツを販売する際に引かれる手数料」(2025年1月6日更新) | https://www.help-note.com/hc/ja/articles/360011358873
 - note ヘルプ「価格の設定とお支払い方法について」 | https://www.help-note.com/hc/ja/articles/360011270114
@@ -23,6 +24,7 @@ sources:
 - 国立国会図書館サーチ「noteで年収1000万円」 | https://ndlsearch.ndl.go.jp/en/books/R100000002-I034348878
 - 丸善ジュンク堂書店「2億円を売り上げたプロが教える note×AI 最強の副業」 | https://www.maruzenjunkudo.co.jp/products/9784046077738
 - ウラベーション「Claude Codeでnoteに自動投稿する方法」(公式APIの有無、下書き保存までにとどめる運用) | https://uravation.com/media/claude-code-note-auto-post/
+- 丸善ジュンク堂書店「note完全マニュアル[第3版]」(書誌情報) | https://www.maruzenjunkudo.co.jp/products/9784798077277
 ---
 
 noteは、文章や画像、音声を投稿できるサービスです。記事の途中に「有料エリア」の区切りを入れて値段をつけると、その先を読みたい人に売ることができます。作業は、書く、値段を決める、公開するだけです。ただし、読まれなければ売れず、売れた分からは手数料が引かれます。

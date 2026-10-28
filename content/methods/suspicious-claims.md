@@ -11,12 +11,16 @@ risk_label: 引っかかると大きな損になり、取り戻すのが難し�
 updated: 2026-10-28
 books:
 - 安全な金融取引のための 金融犯罪の手口と対策 | 芳賀恒人(経済法令研究会) | 978-4-7668-2520-6
+- 知らないと騙される!詐欺の最新手口 | 梅本正行、桜井礼子(宝島社) | 978-4-299-05955-0
+- 特殊詐欺の心理学 | 越智啓太ほか編(誠信書房) | 978-4-414-41710-4
 sources:
 - 消費者庁「SNSなどを通じた『もうけ話』にご注意ください」 | https://www.caa.go.jp/policies/policy/consumer_policy/caution/caution_036
 - 国民生活センター「SNSをきっかけとした消費者トラブル」(2020年4月9日発表) | https://www.kokusen.go.jp/news/data/n-20200409_1.html
 - 警察庁「令和7年のSNS型投資・ロマンス詐欺の認知・検挙状況等について」 | https://www.npa.go.jp/bureau/safetylife/sos47/new-topics/260605/01.html
 - 金融庁「無登録業者との取引に関する注意喚起」 | https://www.fsa.go.jp/ordinary/chuui/highrisk.html
 - 大阪府「特定商取引法(特定商取引に関する法律)」(業務提供誘引販売取引・連鎖販売取引の説明) | https://www.pref.osaka.lg.jp/shouhi/soudan/tokusyou.html
+- 国立国会図書館サーチ「知らないと騙される!詐欺の最新手口」(書誌情報) | https://ndlsearch.ndl.go.jp/en/books/R100000002-I033667208
+- 丸善ジュンク堂書店「特殊詐欺の心理学」(書誌情報) | https://www.maruzenjunkudo.co.jp/products/9784414417104
 ---
 
 このページは、稼ぐ方法ではなく、「手を出さないほうがよい話」を見分けるための取扱説明書です。副業や投資の話は、広告やDMの形で突然届くことがあります。その中には、お金を払わせることが目的で、収入が得られる見込みのないものが混じっています。ここでは、公的機関が注意を呼びかけている特徴と、迷ったときの確認方法を整理します。

@@ -14,6 +14,7 @@ updated: 2026-10-28
 books:
 - 「ゆる副業」のはじめかた アフィリエイトブログ スキマ時間で自分の「好き」をお金に変える! | ヒトデ(翔泳社) | 978-4-7981-6995-8
 - アフィリエイトブログを作りながら覚えるWordPress 入門 | Editroom:H(あすパブリッシング) | 978-4-911151-01-3
+- 沈黙のWebライティング Webマーケッターボーンの激闘 | 松尾茂起、上野高史(インプレス) | 978-4-8443-6623-2
 sources:
 - Google AdSense ヘルプ「AdSense の収益分配」 | https://support.google.com/adsense/answer/180195?hl=ja
 - Google AdSense ヘルプ「AdSense のお支払いについて」(支払い時期、PINと本人確認) | https://support.google.com/adsense/answer/1709858?hl=ja
@@ -24,6 +25,7 @@ sources:
 - 消費者庁「ステルスマーケティングは景品表示法違反となります」 | https://www.caa.go.jp/policies/policy/representation/fair_labeling/stealth_marketing/
 - Google 検索セントラル「生成 AI コンテンツに関するガイダンス」 | https://developers.google.com/search/docs/fundamentals/using-gen-ai-content?hl=ja
 - 国税庁 タックスアンサー No.1900「給与所得者で確定申告が必要な人」 | https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1900.htm
+- 丸善ジュンク堂書店「沈黙のWebライティング」(書誌情報) | https://www.maruzenjunkudo.co.jp/products/9784844366232
 ---
 
 ブログは、自分のサイトに記事を公開して、読んでくれた人の数に応じて収入を得る方法です。収入の道は大きく2つあります。ページに広告を表示して収入を得る方法(広告収入)と、商品やサービスを紹介して、読者が買ったときに紹介料をもらう方法(アフィリエイト)です。どちらも、まず読まれなければ収入になりません。作業の中心は、記事を書き、読者の役に立つ内容に直しながら、続けることです。
