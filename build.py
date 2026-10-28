@@ -46,6 +46,17 @@ def parse_front(text, name):
             raise SystemExit(f"{name}: メタ情報 {k} がありません")
     if not meta.get("sources"):
         raise SystemExit(f"{name}: sources(出典)が1件もありません。調べた情報源を載せてください")
+    if meta.get("category") != "caution":
+        for k in ("ai_auto", "ai_auto_label"):
+            if not meta.get(k):
+                raise SystemExit(f"{name}: メタ情報 {k}(AIでの自動化しやすさ)がありません")
+    if meta.get("ai_auto"):
+        try:
+            meta["ai_auto"] = int(meta["ai_auto"])
+        except ValueError:
+            raise SystemExit(f"{name}: ai_auto は1〜5の整数にしてください")
+        if not 1 <= meta["ai_auto"] <= 5:
+            raise SystemExit(f"{name}: ai_auto は1〜5の整数にしてください")
     try:
         meta["risk"] = int(meta["risk"])
     except ValueError:
@@ -180,6 +191,37 @@ def render_fig(head, lines):
             cls = ' class="res"' if op == "=" else ""
             li.append(f'<li{cls}><b class="op" aria-hidden="true">{op}</b><span class="lb">{inline(label)}</span><span class="vl">{inline(val)}</span></li>')
         return f'<figure class="fig fig-calc">{cap}<ul class="calc">{"".join(li)}</ul></figure>'
+    if kind == "mock":
+        cls = {"title": "m-title", "text": "m-text", "paywall": "m-paywall", "price": "m-price",
+               "button": "m-button", "field": "m-field", "image": "m-image"}
+        rows_html, notes, n = [], [], 0
+        for r in rows:
+            k = r[0] if r[0] in cls else "text"
+            label = r[1] if len(r) > 1 else ""
+            note = r[2] if len(r) > 2 else ""
+            badge = ""
+            if note:
+                n += 1
+                badge = f'<b class="badge" aria-hidden="true">{n}</b>'
+                notes.append(f"<li>{inline(note)}</li>")
+            rows_html.append(f'<div class="{cls[k]}">{inline(label)}{badge}</div>')
+        return (f'<figure class="fig fig-mock">{cap}<div class="mock"><div class="mock-bar" aria-hidden="true"><i></i><i></i><i></i></div>'
+                f'<div class="mock-body">{"".join(rows_html)}</div></div>'
+                f'<ol class="mock-notes">{"".join(notes)}</ol>'
+                f'<p class="fig-caption-note">画面のイメージ図です。実際の画面とは異なります。</p></figure>')
+    if kind == "auto":
+        who = {"AI": ("ai", "AI"), "自動": ("tool", "自動"), "人": ("human", "人")}
+        li = []
+        for r in rows:
+            c, lab = who.get(r[0], ("human", r[0]))
+            title_ = r[1] if len(r) > 1 else ""
+            note = r[2] if len(r) > 2 else ""
+            li.append(
+                f'<li class="is-{c}"><strong><span class="who who-{c}">{esc(lab)}</span>{inline(title_)}</strong>'
+                + (f"<span>{inline(note)}</span>" if note else "") + "</li>"
+            )
+        legend = '<p class="auto-legend"><span>AI: 文章や判断をAIに任せる工程</span><span>自動: 決まった手順をツールが動かす工程</span><span>人: 人が確認・決定する工程</span></p>'
+        return f'<figure class="fig fig-flow fig-auto">{cap}{legend}<ol class="flow">{"".join(li)}</ol></figure>'
     raise SystemExit(f"不明な図の種類: {kind}")
 
 
@@ -200,6 +242,8 @@ def section_class(title):
         return "warn"
     if "始め方" in title or "手順" in title:
         return "steps"
+    if "AI" in title:
+        return "auto"
     if title.startswith("こんなとき") or "つまずき" in title:
         return "trouble"
     return ""
@@ -227,6 +271,8 @@ def render_body(md):
         nav.append((sid, sec["title"]))
         cls = section_class(sec["title"])
         out.append(f'<section id="{sid}"{f" class=\"{cls}\"" if cls else ""}><h2>{inline(sec["title"])}</h2>{inner}</section>')
+        if n == 4 and len(sections) >= 7:
+            out.append(ad_slot())
     return "".join(out), nav
 
 
@@ -239,9 +285,16 @@ def risk_dots(n):
     return f'<span class="risk" role="img" aria-label="リスク度 {n}/5">{cells}</span>'
 
 
+def ai_dots(n):
+    cells = "".join('<i class="on"></i>' if i < n else "<i></i>" for i in range(5))
+    return f'<span class="auto-gauge" role="img" aria-label="AIでの自動化しやすさ {n}/5">{cells}</span>'
+
+
 def ad_slot():
     ads = CONFIG.get("ads", {})
     if not ads.get("enabled"):
+        if ads.get("placeholder"):
+            return '<aside class="ad-slot is-empty" aria-label="広告"><span>広告スペース(準備中)</span></aside>'
         return ""
     snippet = ""
     f = ROOT / ads.get("snippet_file", "")
@@ -326,6 +379,8 @@ def render_method(m):
         ("顔出し", esc(m["face"])),
         ("リスク度", f'{risk_dots(m["risk"])} {esc(m["risk_label"])}'),
     ]
+    if m.get("ai_auto"):
+        spec_rows.append(("AI自動化しやすさ", f'{ai_dots(m["ai_auto"])} {esc(m["ai_auto_label"])}'))
     spec = "".join(f"<tr><th scope=\"row\">{k}</th><td>{v}</td></tr>" for k, v in spec_rows)
     inpage = "".join(f'<li><a href="#{sid}">{esc(t)}</a></li>' for sid, t in nav)
     books = ""
@@ -376,7 +431,9 @@ def render_index(methods):
         if items:
             rows = "".join(
                 f'<li><div class="toc-row"><a href="methods/{esc(m["slug"])}.html">{esc(m["title"])}</a>'
-                f'<span class="leader" aria-hidden="true"></span>{risk_dots(m["risk"])}</div>'
+                f'<span class="leader" aria-hidden="true"></span><span class="toc-meta"><span><small>リスク</small>{risk_dots(m["risk"])}</span>'
+                + (f'<span><small>自動化</small>{ai_dots(m["ai_auto"])}</span>' if m.get("ai_auto") else "")
+                + '</span></div>'
                 f'<p class="toc-sum">{esc(m["summary"])}</p></li>'
                 for m in items
             )
@@ -397,6 +454,7 @@ def render_index(methods):
       <dl>
         <dt>仕様</dt><dd>各ページの最初の表です。初期費用、収益化までの目安、必要なスキル、顔出しの要否、リスク度をまとめています。</dd>
         <dt>リスク度 {risk_dots(1)} から {risk_dots(5)}</dt><dd>点が多いほど、お金や時間を失いやすい手法です。4以上は黄色で示します。</dd>
+        <dt>自動化しやすさ {ai_dots(1)} から {ai_dots(5)}</dt><dd>AIとツールに任せられる作業が多いほど、点が多くなります。最後の確認と判断は、どの手法でも人が行います。</dd>
         <dt>黄色と黒の枠</dt><dd>損をしやすいポイントです。始める前に必ず読んでください。</dd>
       </dl>
     </div>

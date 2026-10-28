@@ -1,41 +1,47 @@
 /* 稼ぎのトリセツ — 取扱説明書の体裁(もくじ・仕様表・注意枠・手順)に寄せたスタイル */
 
 :root {
-  --paper: #f5f7f9;
+  --paper: #f5f5f3;
   --sheet: #ffffff;
-  --ink: #18202a;
-  --ink-soft: #4a5663;
-  --blue: #1b4f8f;
-  --blue-wash: #e4ebf3;
-  --rule: #c5cfda;
-  --amber: #f2b705;
-  --amber-wash: #fff6d6;
+  --ink: #1d1e20;
+  --ink-soft: #5b5e62;
+  --edge: #44474b;
+  --blue: #34566f;
+  --blue-wash: #eceeef;
+  --rule: #d8d9db;
+  --amber: #e3a600;
+  --amber-wash: #faf4e0;
+  --good: #2f6b55;
   --measure: 40rem;
 }
 
 :root[data-theme="dark"] {
-  --paper: #12171d;
-  --sheet: #1a2129;
-  --ink: #e8edf2;
-  --ink-soft: #a9b5c1;
-  --blue: #7fb0ea;
-  --blue-wash: #223244;
-  --rule: #34414f;
-  --amber: #f2b705;
-  --amber-wash: #2c2810;
+  --paper: #151617;
+  --sheet: #1e1f21;
+  --ink: #ececec;
+  --ink-soft: #a6a9ad;
+  --edge: #8a8d92;
+  --blue: #8fb3cc;
+  --blue-wash: #26292c;
+  --rule: #38393c;
+  --amber: #e3a600;
+  --amber-wash: #2b2714;
+  --good: #7cc4a6;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #12171d;
-    --sheet: #1a2129;
-    --ink: #e8edf2;
-    --ink-soft: #a9b5c1;
-    --blue: #7fb0ea;
-    --blue-wash: #223244;
-    --rule: #34414f;
-    --amber: #f2b705;
-    --amber-wash: #2c2810;
+    --paper: #151617;
+    --sheet: #1e1f21;
+    --ink: #ececec;
+    --ink-soft: #a6a9ad;
+    --edge: #8a8d92;
+    --blue: #8fb3cc;
+    --blue-wash: #26292c;
+    --rule: #38393c;
+    --amber: #e3a600;
+    --amber-wash: #2b2714;
+    --good: #7cc4a6;
   }
 }
 
@@ -70,7 +76,7 @@ a:focus-visible, summary:focus-visible {
 
 /* ヘッダー */
 .site-head {
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 1px solid var(--edge);
   background: var(--sheet);
 }
 .site-head .wrap {
@@ -133,7 +139,7 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
 .toc > h2 {
   font-size: 1.375rem;
   padding-bottom: 0.5rem;
-  border-bottom: 3px double var(--ink);
+  border-bottom: 3px double var(--edge);
 }
 .toc-count { margin: 0.5rem 0 0; font-size: 0.9375rem; color: var(--ink-soft); }
 .toc-group { margin-top: 1.75rem; }
@@ -162,7 +168,7 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
 .risk i {
   width: 0.7rem;
   height: 0.7rem;
-  border: 2px solid var(--ink);
+  border: 2px solid var(--edge);
   border-radius: 50%;
   display: inline-block;
 }
@@ -181,7 +187,7 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
   margin-top: 1.5rem;
   border-collapse: collapse;
   background: var(--sheet);
-  border: 2px solid var(--ink);
+  border: 2px solid var(--edge);
   font-size: 0.9375rem;
   line-height: 1.7;
 }
@@ -192,7 +198,7 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
   padding: 0 0 0.375rem;
 }
 .spec th, .spec td { border: 1px solid var(--rule); padding: 0.5rem 0.75rem; text-align: left; vertical-align: top; }
-.spec th { width: 7.5rem; background: var(--blue-wash); font-weight: 700; }
+.spec th { width: 9rem; background: var(--blue-wash); font-weight: 700; }
 
 .doc .inpage { margin: 1.25rem 0 0; padding: 0; list-style: none; font-size: 0.9375rem; display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
 .doc .inpage li { margin: 0; }
@@ -201,7 +207,7 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
 .doc h2 {
   font-size: 1.3125rem;
   padding-bottom: 0.375rem;
-  border-bottom: 3px double var(--ink);
+  border-bottom: 3px double var(--edge);
 }
 .doc h3 { font-size: 1.0625rem; margin-top: 1.5rem; color: var(--blue); }
 .doc p { margin: 0.875rem 0 0; }
@@ -211,7 +217,7 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
 /* 注意枠 */
 .doc section.warn {
   background: var(--amber-wash);
-  border: 2px solid var(--ink);
+  border: 2px solid var(--edge);
   padding: 0 1rem 1rem;
 }
 .doc section.warn::before {
@@ -224,8 +230,8 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
 .doc section.warn h2 { border-bottom: 0; padding-top: 0.875rem; }
 
 /* 手順 */
-.doc section.steps ol { list-style: none; padding: 0; counter-reset: step; }
-.doc section.steps li {
+.doc section.steps > ol { list-style: none; padding: 0; counter-reset: step; }
+.doc section.steps > ol > li {
   counter-increment: step;
   position: relative;
   margin-top: 0.875rem;
@@ -233,7 +239,7 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
   background: var(--sheet);
   border: 1px solid var(--rule);
 }
-.doc section.steps li::before {
+.doc section.steps > ol > li::before {
   content: counter(step);
   position: absolute;
   left: 0.75rem;
@@ -253,7 +259,7 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
 
 /* 紹介本・出典 */
 .books, .sources { margin-top: 2.5rem; }
-.books h2, .sources h2 { font-size: 1.125rem; padding-bottom: 0.375rem; border-bottom: 3px double var(--ink); }
+.books h2, .sources h2 { font-size: 1.125rem; padding-bottom: 0.375rem; border-bottom: 3px double var(--edge); }
 .doc .book-list, .doc .source-list { margin: 0.75rem 0 0; padding: 0; list-style: none; font-size: 0.9375rem; line-height: 1.7; }
 .book-list li { padding: 0.625rem 0; border-bottom: 1px solid var(--rule); }
 .book-list .by { color: var(--ink-soft); font-size: 0.875rem; }
@@ -261,7 +267,7 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
 
 
 /* 図解 */
-.fig { margin: 1.25rem 0 0; padding: 0.875rem 1rem 1rem; background: var(--sheet); border: 2px solid var(--ink); }
+.fig { margin: 1.25rem 0 0; padding: 0.875rem 1rem 1rem; background: var(--sheet); border: 2px solid var(--edge); }
 .fig figcaption { font-weight: 700; font-size: 0.9375rem; margin-bottom: 0.75rem; }
 .doc .fig ol, .doc .fig ul { margin: 0; padding: 0; list-style: none; }
 .doc .fig li { margin: 0; }
@@ -273,11 +279,11 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
 .bar-row + .bar-row { margin-top: 1rem; }
 .bar-label { margin: 0 0 0.25rem !important; font-weight: 700; font-size: 0.9375rem; display: flex; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
 .bar-label span { font-weight: 400; color: var(--ink-soft); font-size: 0.875rem; }
-.bar { display: flex; height: 1.75rem; border: 2px solid var(--ink); background: var(--paper); }
+.bar { display: flex; height: 1.75rem; border: 2px solid var(--edge); background: var(--paper); }
 .bar i { display: block; height: 100%; }
 .seg0 { background: var(--blue); }
 .seg1 { background: var(--amber); }
-.seg2 { background: repeating-linear-gradient(-45deg, var(--amber) 0 5px, var(--ink) 5px 7px); }
+.seg2 { background: repeating-linear-gradient(-45deg, var(--amber) 0 5px, var(--edge) 5px 7px); }
 .seg3 { background: var(--ink-soft); }
 .legend { display: flex; flex-wrap: wrap; gap: 0.125rem 1rem; margin-top: 0.375rem !important; font-size: 0.875rem; line-height: 1.6; }
 .legend .sw { display: inline-block; width: 0.75rem; height: 0.75rem; margin-right: 0.375rem; border: 1px solid var(--ink); vertical-align: baseline; }
@@ -287,12 +293,54 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
 .calc .res { background: var(--blue-wash); border-bottom: 1px solid var(--rule); }
 .calc .res .lb { font-weight: 700; }
 
+
+/* AIでの自動化しやすさ */
+.auto-gauge { display: inline-flex; gap: 3px; vertical-align: baseline; white-space: nowrap; }
+.auto-gauge i { width: 0.7rem; height: 0.7rem; border: 2px solid var(--blue); display: inline-block; }
+.auto-gauge i.on { background: var(--blue); }
+.toc-meta { display: inline-flex; gap: 0.75rem; align-items: baseline; flex-wrap: wrap; }
+.toc-meta small { font-size: 0.75rem; color: var(--ink-soft); margin-right: 0.25rem; }
+.doc section.auto { background: var(--sheet); border: 1px solid var(--rule); border-top: 5px solid var(--blue); padding: 0 1rem 1rem; }
+.doc section.auto h2 { padding-top: 0.875rem; border-bottom: 0; }
+
+/* 画面のイメージ図 */
+.mock { border: 2px solid var(--edge); background: var(--paper); border-radius: 0.5rem; overflow: hidden; }
+.mock-bar { display: flex; gap: 0.375rem; padding: 0.5rem 0.75rem; background: var(--blue-wash); border-bottom: 1px solid var(--rule); }
+.mock-bar i { width: 0.625rem; height: 0.625rem; border-radius: 50%; background: var(--rule); display: block; }
+.mock-body { padding: 0.875rem; display: grid; gap: 0.625rem; }
+.mock-body > div { position: relative; padding: 0.5rem 0.75rem; background: var(--sheet); border: 1px solid var(--rule); border-radius: 0.25rem; font-size: 0.9375rem; line-height: 1.6; }
+.mock-body .m-title { font-weight: 700; font-size: 1.0625rem; }
+.mock-body .m-text { color: var(--ink-soft); min-height: 3.5rem; }
+.mock-body .m-paywall { border: 2px dashed var(--amber); background: var(--amber-wash); text-align: center; font-weight: 700; }
+.mock-body .m-price { max-width: 9rem; font-weight: 700; }
+.mock-body .m-button { justify-self: end; background: var(--blue); color: var(--sheet); font-weight: 700; border-color: var(--blue); }
+.mock-body .m-field { border-style: dashed; }
+.mock-body .m-image { min-height: 4rem; display: grid; place-items: center; color: var(--ink-soft); background: var(--blue-wash); }
+.mock-body .badge { position: absolute; right: -0.5rem; top: -0.5rem; width: 1.5rem; height: 1.5rem; line-height: 1.5rem; text-align: center; border-radius: 50%; background: var(--ink); color: var(--paper); font-size: 0.8125rem; font-weight: 700; }
+.mock-body > div { margin-right: 0.5rem; }
+.doc .fig .mock-notes { margin-top: 0.875rem; counter-reset: n; }
+.doc .fig .mock-notes li { counter-increment: n; display: flex; gap: 0.5rem; padding: 0.25rem 0; font-size: 0.9375rem; line-height: 1.7; }
+.doc .fig .mock-notes li::before { content: counter(n); flex: none; width: 1.375rem; height: 1.375rem; line-height: 1.375rem; text-align: center; border-radius: 50%; background: var(--ink); color: var(--paper); font-size: 0.75rem; font-weight: 700; margin-top: 0.2rem; }
+.fig-caption-note { margin: 0.5rem 0 0; font-size: 0.8125rem; color: var(--ink-soft); }
+
+/* AI自動化のフロー */
+.flow .who { display: inline-block; margin-right: 0.5rem; padding: 0 0.5rem; font-size: 0.75rem; font-weight: 700; line-height: 1.5; border-radius: 0.25rem; vertical-align: baseline; }
+.flow .who-ai { background: var(--blue); color: var(--sheet); }
+.flow .who-tool { background: var(--ink-soft); color: var(--sheet); }
+.flow .who-human { background: var(--amber); color: #1d1e20; }
+.flow li.is-ai { border-left-color: var(--blue); }
+.flow li.is-tool { border-left-color: var(--ink-soft); }
+.flow li.is-human { border-left-color: var(--amber); background: var(--amber-wash); }
+.doc .fig .auto-legend { display: flex; flex-wrap: wrap; gap: 0 0.875rem; margin: 0 0 0.875rem; font-size: 0.8125rem; line-height: 1.7; color: var(--ink-soft); }
+
 /* 広告枠 */
-.ad-slot { margin: 2rem 0 0; padding: 0.5rem; border: 1px dashed var(--rule); min-height: 6rem; text-align: center; }
+.ad-slot { margin: 2.25rem 0 0; padding: 0.5rem 0.75rem 0.75rem; border: 1px dashed var(--rule); background: var(--sheet); min-height: 7rem; text-align: center; }
 .ad-slot::before { content: "広告"; display: block; font-size: 0.75rem; color: var(--ink-soft); text-align: left; }
+.ad-slot.is-empty { display: flex; flex-direction: column; justify-content: flex-start; }
+.ad-slot.is-empty span { margin: auto; color: var(--ink-soft); font-size: 0.875rem; }
 
 /* フッター */
-.site-foot { border-top: 2px solid var(--ink); background: var(--sheet); padding: 1.5rem 0 2rem; font-size: 0.875rem; line-height: 1.8; color: var(--ink-soft); }
+.site-foot { border-top: 1px solid var(--edge); background: var(--sheet); padding: 1.5rem 0 2rem; font-size: 0.875rem; line-height: 1.8; color: var(--ink-soft); }
 .site-foot p { margin: 0 0 0.75rem; }
 .site-foot strong { color: var(--ink); }
 

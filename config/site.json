@@ -7,14 +7,39 @@
   },
   "ads": {
     "enabled": false,
-    "snippet_file": "config/ad-snippet.html"
+    "snippet_file": "config/ad-snippet.html",
+    "placeholder": true
   },
   "categories": [
-    { "id": "content", "name": "発信して稼ぐ", "desc": "note、ブログ、動画、SNSなど、発信そのものを収入にする方法" },
-    { "id": "skill", "name": "技能を提供して稼ぐ", "desc": "文章、動画編集、開発、教えることなど、自分の技能を仕事にする方法" },
-    { "id": "product", "name": "作って売る", "desc": "アプリ、素材、講座など、一度作ったものを売り続ける方法" },
-    { "id": "goods", "name": "仕入れて売る", "desc": "物を仕入れて、または作って、売る方法" },
-    { "id": "invest", "name": "投資で増やす", "desc": "働く時間ではなく、お金を働かせる方法" },
-    { "id": "caution", "name": "怪しい話の見分け方", "desc": "手を出す前に確認したい、危ない稼ぎ話の特徴" }
+    {
+      "id": "content",
+      "name": "発信して稼ぐ",
+      "desc": "note、ブログ、動画、SNSなど、発信そのものを収入にする方法"
+    },
+    {
+      "id": "skill",
+      "name": "技能を提供して稼ぐ",
+      "desc": "文章、動画編集、開発、教えることなど、自分の技能を仕事にする方法"
+    },
+    {
+      "id": "product",
+      "name": "作って売る",
+      "desc": "アプリ、素材、講座など、一度作ったものを売り続ける方法"
+    },
+    {
+      "id": "goods",
+      "name": "仕入れて売る",
+      "desc": "物を仕入れて、または作って、売る方法"
+    },
+    {
+      "id": "invest",
+      "name": "投資で増やす",
+      "desc": "働く時間ではなく、お金を働かせる方法"
+    },
+    {
+      "id": "caution",
+      "name": "怪しい話の見分け方",
+      "desc": "手を出す前に確認したい、危ない稼ぎ話の特徴"
+    }
   ]
 }
