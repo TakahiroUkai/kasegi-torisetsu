@@ -44,3 +44,7 @@ sources:
 ```
 
 `category` は `config/site.json` のカテゴリID、`risk` は1〜5の整数です。`sources` が空だとビルドは止まります。
+
+## 公開前チェック
+
+`python3 check.py --visual` で、個人情報の混入、断定表現、出典、クイズの形式、リンク切れ、スマホ幅での横スクロールを確認します。
