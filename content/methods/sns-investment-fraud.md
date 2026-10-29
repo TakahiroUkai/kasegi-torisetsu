@@ -18,7 +18,7 @@ sources:
 - 警察庁 SOS47「SNS型投資詐欺(令和7年・暫定値)」 | https://www.npa.go.jp/bureau/safetylife/sos47/new-topics/260213/03.html
 - 金融庁「SNS等を通じた投資詐欺にご注意ください」 | https://www.fsa.go.jp/receipt/soudansitu/advice03-2.html
 - 金融庁「金融サービス利用者相談室」 | https://www.fsa.go.jp/receipt/soudansitu/index.html
-- 消費者庁 注意喚起(SNSで持ちかけられる投資・副業のもうけ話) | https://www.caa.go.jp/policies/policy/consumer_policy/caution/caution_036
+- 消費者庁「SNSなどを通じた『もうけ話』にご注意ください」 | https://www.caa.go.jp/policies/policy/consumer_policy/caution/caution_036
 - 京都府警察「SNS型投資詐欺にご注意ください」 | https://www.pref.kyoto.jp/fukei/anzen/seiki_t/furikome/r7-0202.html
 - 国立国会図書館サーチ「SNS型詐欺」(書誌情報) | https://ndlsearch.ndl.go.jp/books/R100000002-I034005707
 - 丸善ジュンク堂書店「安全な金融取引のための 金融犯罪の手口と対策」(書誌情報) | https://www.maruzenjunkudo.co.jp/products/9784766825206

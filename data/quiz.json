@@ -114,7 +114,7 @@
     "options": ["他の人も成功しているので、少額だけ振り込んでみる", "個人名義の口座には振り込まず、消費生活センター(188)などに相談する", "案内役に、本物かどうかを聞いて、返事を信じる"],
     "answer": 1,
     "explain": "消費者庁は、振込先が個人名義の口座であれば詐欺なので、振り込まないよう呼びかけています。金融庁によると、グループ内では複数のアカウント(サクラ)が投資成功を装うことがあり、個人名義の口座への入金を指示される場合もあります。送金前に、消費生活センターや金融庁の相談窓口に相談してください。",
-    "source": ["消費者庁 注意喚起(SNSで持ちかけられる投資・副業のもうけ話)", "https://www.caa.go.jp/policies/policy/consumer_policy/caution/caution_036"]
+    "source": ["消費者庁「SNSなどを通じた『もうけ話』にご注意ください」", "https://www.caa.go.jp/policies/policy/consumer_policy/caution/caution_036"]
   },
   {
     "id": "q-snsinv-withdraw",
