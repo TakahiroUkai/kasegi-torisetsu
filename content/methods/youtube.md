@@ -11,7 +11,6 @@ risk_label: お金の損は小さい。主なリスクは、作る時間が収�
 ai_auto: 3
 ai_auto_label: 台本・タイトル案・説明文の下書きはAIに任せやすい。公式の投稿窓口(API)はあるが、公開と最後の確認は人が行う。規約でのAI利用の扱いは確認できなかった
 updated: 2026-10-30
-books: []
 sources:
 - YouTube ヘルプ「YouTube パートナー プログラム」(収益化の条件・収益の分配・支払いの確認先。この回は内容を読めなかったため、本文では数字を引用していない) | https://support.google.com/youtube/answer/72851?hl=ja
 - Google for Developers「YouTube Data API: Quota Calculator」(割り当てと投稿の費用。2026年10月15日更新と表示されていた) | https://developers.google.com/youtube/v3/determine_quota_cost
