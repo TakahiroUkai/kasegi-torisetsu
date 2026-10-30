@@ -11,9 +11,16 @@ risk_label: お金の損は小さい。主なリスクは、作る時間が収�
 ai_auto: 3
 ai_auto_label: 台本・タイトル案・説明文の下書きはAIに任せやすい。公式の投稿窓口(API)はあるが、公開と最後の確認は人が行う。規約でのAI利用の扱いは確認できなかった
 updated: 2026-10-30
+books:
+- YouTube完全マニュアル[第4版] | 桑名由美、木村剛大(秀和システム) | 978-4-7980-7341-5
+- YouTube基本&やりたいこと108 最新完全版(できるfit) | 田口和裕、森嶋良子、できるシリーズ編集部(インプレス) | 978-4-295-01998-5
+- 今すぐ使えるかんたんYouTube動画編集入門 改訂新版 | 入江祐也(技術評論社) | 978-4-297-14194-3
 sources:
 - YouTube ヘルプ「YouTube パートナー プログラム」(収益化の条件・収益の分配・支払いの確認先。この回は内容を読めなかったため、本文では数字を引用していない) | https://support.google.com/youtube/answer/72851?hl=ja
 - Google for Developers「YouTube Data API: Quota Calculator」(割り当てと投稿の費用。2026年10月15日更新と表示されていた) | https://developers.google.com/youtube/v3/determine_quota_cost
+- 丸善ジュンク堂書店「YouTube完全マニュアル[第4版]」(書誌情報) | https://www.maruzenjunkudo.co.jp/products/9784798073415
+- 国立国会図書館サーチ「YouTube基本&やりたいこと108 最新完全版」(書誌情報) | https://ndlsearch.ndl.go.jp/en/books/R100000002-I033642117
+- 国立国会図書館サーチ「今すぐ使えるかんたんYouTube動画編集入門 改訂新版」(書誌情報。特定の編集ソフト向けの内容) | https://ndlsearch.ndl.go.jp/en/books/R100000002-I033512560
 - 国税庁 タックスアンサー No.1900「給与所得者で確定申告が必要な人」 | https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1900.htm
 - 消費者庁「ステルスマーケティングは景品表示法違反となります」 | https://www.caa.go.jp/policies/policy/representation/fair_labeling/stealth_marketing/
 ---
