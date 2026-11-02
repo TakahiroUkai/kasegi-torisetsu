@@ -10,6 +10,10 @@
 <meta property="og:title" content="怪しい話に気づけるかクイズ | 稼ぎのトリセツ">
 <meta property="og:description" content="SNSの広告やDMで届くもうけ話を見分けられるかを、選択式のクイズで確かめます。答えるたびに、解説と出典が出ます。">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="稼ぎのトリセツ">
+<meta property="og:url" content="https://takahiroukai.github.io/kasegi-torisetsu/quiz/">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://takahiroukai.github.io/kasegi-torisetsu/quiz/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&amp;display=swap">
@@ -34,6 +38,7 @@
     <div id="quiz"></div>
     <noscript><p>このクイズは、JavaScriptを有効にすると使えます。</p></noscript>
   </section>
+  <aside class="share" aria-labelledby="share-h" data-url="https://takahiroukai.github.io/kasegi-torisetsu/quiz/" data-title="怪しい話に気づけるかクイズ | 稼ぎのトリセツ"><h2 id="share-h">このページを共有する</h2><ul class="share-list"><li><a class="share-btn share-x" href="https://x.com/intent/post?url=https%3A%2F%2Ftakahiroukai.github.io%2Fkasegi-torisetsu%2Fquiz%2F&amp;text=%E6%80%AA%E3%81%97%E3%81%84%E8%A9%B1%E3%81%AB%E6%B0%97%E3%81%A5%E3%81%91%E3%82%8B%E3%81%8B%E3%82%AF%E3%82%A4%E3%82%BA%20%7C%20%E7%A8%BC%E3%81%8E%E3%81%AE%E3%83%88%E3%83%AA%E3%82%BB%E3%83%84" target="_blank" rel="noopener noreferrer">X<span class="sr-only">で共有(新しいタブで開きます)</span></a></li><li><a class="share-btn share-line" href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Ftakahiroukai.github.io%2Fkasegi-torisetsu%2Fquiz%2F" target="_blank" rel="noopener noreferrer">LINE<span class="sr-only">で共有(新しいタブで開きます)</span></a></li><li><a class="share-btn share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftakahiroukai.github.io%2Fkasegi-torisetsu%2Fquiz%2F" target="_blank" rel="noopener noreferrer">Facebook<span class="sr-only">で共有(新しいタブで開きます)</span></a></li><li><a class="share-btn share-hb" href="https://b.hatena.ne.jp/add?mode=confirm&amp;url=https%3A%2F%2Ftakahiroukai.github.io%2Fkasegi-torisetsu%2Fquiz%2F&amp;title=%E6%80%AA%E3%81%97%E3%81%84%E8%A9%B1%E3%81%AB%E6%B0%97%E3%81%A5%E3%81%91%E3%82%8B%E3%81%8B%E3%82%AF%E3%82%A4%E3%82%BA%20%7C%20%E7%A8%BC%E3%81%8E%E3%81%AE%E3%83%88%E3%83%AA%E3%82%BB%E3%83%84" target="_blank" rel="noopener noreferrer">はてなブックマーク<span class="sr-only">で共有(新しいタブで開きます)</span></a></li><li><button type="button" class="share-btn share-copy">リンクをコピー</button></li><li class="share-native" hidden><button type="button" class="share-btn">その他のアプリで共有</button></li></ul><p class="share-status" role="status" aria-live="polite"></p></aside>
   
   <p class="quiz-note">問題の内容は、消費者庁・国民生活センター・警察庁・金融庁などの公開情報をもとにしています。個別の相談は、消費者ホットライン「188」などの窓口にしてください。</p>
   <p style="margin-top:2.5rem"><a href="../methods/suspicious-claims.html">「怪しい稼ぎ話の見分け方」のページを読む</a></p>
@@ -100,5 +105,35 @@
     <p><strong>広告について</strong> このサイトには、書籍紹介のアフィリエイトリンク(広告)が含まれます。リンク先で購入されると、運営者に報酬が入ることがあります。Amazonのアソシエイトとして、稼ぎのトリセツは適格販売により収入を得ています。</p>
   </div>
 </footer>
+<script>
+(function () {
+  var box = document.querySelector('.share');
+  if (!box) return;
+  var url = box.getAttribute('data-url'), title = box.getAttribute('data-title');
+  var st = box.querySelector('.share-status');
+  function say(m) { if (st) st.textContent = m; }
+  var copy = box.querySelector('.share-copy');
+  if (copy) copy.addEventListener('click', function () {
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = url; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      say(ok ? 'リンクをコピーしました' : 'コピーできませんでした。アドレスバーから直接コピーしてください');
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () { say('リンクをコピーしました'); }, fallback);
+    } else { fallback(); }
+  });
+  var nat = box.querySelector('.share-native');
+  if (nat && navigator.share) {
+    nat.hidden = false;
+    nat.querySelector('button').addEventListener('click', function () {
+      navigator.share({ title: title, url: url }).catch(function () {});
+    });
+  }
+})();
+</script>
 </body>
 </html>

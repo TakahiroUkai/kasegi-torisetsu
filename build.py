@@ -10,6 +10,7 @@ import json
 import re
 import sys
 from pathlib import Path
+from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parent
 CONTENT = ROOT / "content" / "methods"
@@ -356,7 +357,67 @@ def source_item(src, books):
     return f"<li>{esc(src[0])}</li>"
 
 
-def layout(title, desc, body, root, show_disclosure):
+def page_url(path):
+    return CONFIG["base_url"].rstrip("/") + "/" + path
+
+
+SHARE_JS = r"""
+(function () {
+  var box = document.querySelector('.share');
+  if (!box) return;
+  var url = box.getAttribute('data-url'), title = box.getAttribute('data-title');
+  var st = box.querySelector('.share-status');
+  function say(m) { if (st) st.textContent = m; }
+  var copy = box.querySelector('.share-copy');
+  if (copy) copy.addEventListener('click', function () {
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = url; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      say(ok ? 'リンクをコピーしました' : 'コピーできませんでした。アドレスバーから直接コピーしてください');
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () { say('リンクをコピーしました'); }, fallback);
+    } else { fallback(); }
+  });
+  var nat = box.querySelector('.share-native');
+  if (nat && navigator.share) {
+    nat.hidden = false;
+    nat.querySelector('button').addEventListener('click', function () {
+      navigator.share({ title: title, url: url }).catch(function () {});
+    });
+  }
+})();
+"""
+
+
+def share_block(title, path):
+    """SNS共有ボタン。外部の共有スクリプトは読み込まず、各サービスの共有URLへのリンクにする。"""
+    url = page_url(path)
+    text = title if title == CONFIG["name"] else f"{title} | {CONFIG['name']}"
+    u, t = quote(url, safe=""), quote(text, safe="")
+    links = [
+        ("share-x", "X", f"https://x.com/intent/post?url={u}&amp;text={t}"),
+        ("share-line", "LINE", f"https://social-plugins.line.me/lineit/share?url={u}"),
+        ("share-fb", "Facebook", f"https://www.facebook.com/sharer/sharer.php?u={u}"),
+        ("share-hb", "はてなブックマーク", f"https://b.hatena.ne.jp/add?mode=confirm&amp;url={u}&amp;title={t}"),
+    ]
+    items = "".join(
+        f'<li><a class="share-btn {c}" href="{h}" target="_blank" rel="noopener noreferrer">{n}<span class="sr-only">で共有(新しいタブで開きます)</span></a></li>'
+        for c, n, h in links
+    )
+    return (
+        f'<aside class="share" aria-labelledby="share-h" data-url="{esc(url)}" data-title="{esc(text)}">'
+        f'<h2 id="share-h">このページを共有する</h2><ul class="share-list">{items}'
+        '<li><button type="button" class="share-btn share-copy">リンクをコピー</button></li>'
+        '<li class="share-native" hidden><button type="button" class="share-btn">その他のアプリで共有</button></li>'
+        '</ul><p class="share-status" role="status" aria-live="polite"></p></aside>'
+    )
+
+
+def layout(title, desc, body, root, show_disclosure, path=""):
     name = CONFIG["name"]
     full = name if title == name else f"{title} | {name}"
     disclosure = ""
@@ -369,6 +430,7 @@ def layout(title, desc, body, root, show_disclosure):
             parts.append("広告枠を設けています。")
         if parts:
             disclosure = f'<p><strong>広告について</strong> {"".join(parts)}</p>'
+    share_js = f"<script>{SHARE_JS}</script>\n" if 'class="share"' in body else ""
     return f"""<!doctype html>
 <html lang="ja">
 <head>
@@ -381,6 +443,10 @@ def layout(title, desc, body, root, show_disclosure):
 <meta property="og:title" content="{esc(full)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="{esc(name)}">
+<meta property="og:url" content="{esc(page_url(path))}">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="{esc(page_url(path))}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&amp;display=swap">
@@ -402,7 +468,7 @@ def layout(title, desc, body, root, show_disclosure):
     {disclosure}
   </div>
 </footer>
-</body>
+{share_js}</body>
 </html>
 """
 
@@ -452,9 +518,10 @@ def render_method(m):
   {books}
   {sources}
   {quiz_cta}
+  {share_block(m["title"], f"methods/{m['slug']}.html")}
   <p style="margin-top:2.5rem"><a href="../">もくじにもどる</a></p>
 </div>"""
-    return layout(m["title"], m["summary"], page, "../", False)
+    return layout(m["title"], m["summary"], page, "../", False, f"methods/{m['slug']}.html")
 
 
 def render_index(methods):
@@ -509,9 +576,10 @@ def render_index(methods):
     <p class="toc-count">掲載中 {done}件 / 追加予定を含め {total}件。</p>
     {"".join(toc)}
   </section>
+  {share_block(CONFIG["name"], "")}
   {ad_slot()}
 </div>"""
-    return layout(CONFIG["name"], CONFIG["description"], body, "", False)
+    return layout(CONFIG["name"], CONFIG["description"], body, "", False, "")
 
 
 QUIZ_JS = r"""
@@ -583,6 +651,7 @@ def render_quiz():
     <div id="quiz"></div>
     <noscript><p>このクイズは、JavaScriptを有効にすると使えます。</p></noscript>
   </section>
+  {share_block("怪しい話に気づけるかクイズ", "quiz/")}
   {ad_slot()}
   <p class="quiz-note">問題の内容は、消費者庁・国民生活センター・警察庁・金融庁などの公開情報をもとにしています。個別の相談は、消費者ホットライン「188」などの窓口にしてください。</p>
   <p style="margin-top:2.5rem"><a href="../methods/suspicious-claims.html">「怪しい稼ぎ話の見分け方」のページを読む</a></p>
@@ -590,7 +659,7 @@ def render_quiz():
 </div>
 <script type="application/json" id="quiz-data">{data}</script>
 <script>{QUIZ_JS}</script>"""
-    return layout("怪しい話に気づけるかクイズ", "SNSの広告やDMで届くもうけ話を見分けられるかを、選択式のクイズで確かめます。答えるたびに、解説と出典が出ます。", body, "../", False)
+    return layout("怪しい話に気づけるかクイズ", "SNSの広告やDMで届くもうけ話を見分けられるかを、選択式のクイズで確かめます。答えるたびに、解説と出典が出ます。", body, "../", False, "quiz/")
 
 
 def build():
