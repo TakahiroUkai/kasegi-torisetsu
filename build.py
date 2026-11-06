@@ -662,6 +662,27 @@ def render_quiz():
     return layout("怪しい話に気づけるかクイズ", "SNSの広告やDMで届くもうけ話を見分けられるかを、選択式のクイズで確かめます。答えるたびに、解説と出典が出ます。", body, "../", False, "quiz/")
 
 
+def write_sitemap():
+    """docs/ にある公開ページから sitemap.xml と robots.txt を作る(毎回のビルドで更新される)。"""
+    base = CONFIG["base_url"].rstrip("/") + "/"
+    urls = set()
+    for p in DOCS.rglob("*.html"):
+        if p.name.startswith("google"):
+            continue
+        rel = p.relative_to(DOCS).as_posix()
+        if rel == "index.html":
+            rel = ""
+        elif rel.endswith("/index.html"):
+            rel = rel[: -len("index.html")]
+        urls.add(base + rel)
+    body = "".join(f"<url><loc>{html.escape(u)}</loc></url>" for u in sorted(urls))
+    (DOCS / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>\n', encoding="utf-8")
+    (DOCS / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {base}sitemap.xml\n", encoding="utf-8")
+    return len(urls)
+
+
 def build():
     methods = load_methods()
     known = {q["slug"] for q in QUEUE}
@@ -678,7 +699,8 @@ def build():
     (DOCS / "quiz" / "index.html").write_text(render_quiz(), encoding="utf-8")
     for slug, m in methods.items():
         (DOCS / "methods" / f"{slug}.html").write_text(render_method(m), encoding="utf-8")
-    print(f"生成しました: もくじ + 手法ページ {len(methods)}件")
+    n_urls = write_sitemap()
+    print(f"生成しました: もくじ + 手法ページ {len(methods)}件 / sitemap {n_urls}件")
 
 
 def show_next():
