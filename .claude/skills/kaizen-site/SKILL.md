@@ -11,7 +11,7 @@ description: 稼ぎのトリセツの「改善の1周」で、このサイトだ
 
 - 項目の接頭辞: `KT`(司令塔の `site` は `kasegi`)
 - 既定ブランチ: `main`。公開URL: https://takahiroukai.github.io/kasegi-torisetsu/
-- 改善の曜日: 月曜
+- 改善の順番: 1番目(稼ぎのトリセツ → あんなことこんなことClaude → 机タイム素材集 → 注目銘柄メモの順に、実行のたびに次へ進む)
 
 ## ユーザー役の読者像
 
