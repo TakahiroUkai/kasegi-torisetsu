@@ -556,6 +556,20 @@ def render_index(methods):
             f'<div class="toc-group{" cat-caution" if c["id"] == "caution" else ""}"><h3>{esc(c["name"])}</h3>{note}<p class="desc">{esc(c["desc"])}</p>{lst}{qlink}</div>'
         )
 
+    start_defs = [
+        ("まずは、危ない話を避けたい", "suspicious-claims", "怪しい稼ぎ話の見分け方", "お金を先に払わせる話など、共通の特徴と相談先を知る。読んだあとは、クイズで確かめられます。"),
+        ("文章で、費用を抑えて試したい", "web-writer", "Webライター", "始めるのにお金はほとんどかかりません。note、ブログとも見比べられます。"),
+        ("働いて稼ぐのではなく、お金を増やす話を知りたい", "index-investing", "インデックス投資(積立)", "元本は保証されません。稼ぐ方法とは性質が違うので、先に読んでおくと迷いにくくなります。"),
+    ]
+    start_items = "".join(
+        f'<li><strong>{esc(q)}</strong><br><a href="methods/{slug}.html">{esc(t)}</a>: {esc(d)}</li>'
+        for q, slug, t, d in start_defs if slug in methods
+    )
+    start_html = (
+        f'<section class="howto start-here"><h2>迷ったら、ここから</h2><ul>{start_items}</ul></section>'
+        if start_items else ""
+    )
+
     body = f"""<div class="wrap">
   <div class="cover">
     <h1>{esc(CONFIG["name"])}</h1>
@@ -570,6 +584,7 @@ def render_index(methods):
         <dt>黄色と黒の枠</dt><dd>損をしやすいポイントです。始める前に必ず読んでください。</dd>
       </dl>
     </div>
+    {start_html}
   </div>
   <section class="toc">
     <h2>もくじ</h2>

@@ -104,6 +104,9 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
 .howto dl { margin: 0; }
 .howto dt { font-weight: 700; margin-top: 0.5rem; }
 .howto dd { margin: 0; color: var(--ink-soft); }
+.howto ul { margin: 0; padding-left: 1.25rem; }
+.howto li { margin-top: 0.625rem; }
+.howto.start-here { border-left-color: var(--ink); }
 
 /* もくじ */
 .toc { margin-top: 2.5rem; }
