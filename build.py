@@ -445,7 +445,11 @@ def layout(title, desc, body, root, show_disclosure, path=""):
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{esc(name)}">
 <meta property="og:url" content="{esc(page_url(path))}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{esc(CONFIG["base_url"].rstrip("/") + "/assets/og.png")}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="稼ぎのトリセツ 1人でお金を稼ぐ道">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="{esc(page_url(path))}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
