@@ -475,7 +475,34 @@ def layout(title, desc, body, root, show_disclosure, path=""):
 
 # ---------- ページ生成 ----------
 
-def render_method(m):
+def related_methods(m, methods):
+    """次に読むページ(最大3件)。同じ種類を優先し、普通の手法には怪しい話の見分け方を1件添える。"""
+    order = {q["slug"]: i for i, q in enumerate(QUEUE)}
+    others = sorted((x for x in methods.values() if x["slug"] != m["slug"]), key=lambda x: order.get(x["slug"], 999))
+    is_caution = m["category"] == "caution"
+    pool = [x for x in others if (x["category"] == "caution") == is_caution]
+    same = [x for x in pool if x["category"] == m["category"]]
+    picks = same + [x for x in pool if x not in same]
+    picks = picks[:3]
+    if not is_caution and "suspicious-claims" in methods and "suspicious-claims" != m["slug"]:
+        if all(x["slug"] != "suspicious-claims" for x in picks):
+            picks = picks[:2] + [methods["suspicious-claims"]]
+    return picks
+
+
+def render_related(m, methods):
+    items = related_methods(m, methods)
+    if not items:
+        return ""
+    lead = "ほかの手口も、あわせて確かめておくと見分けやすくなります。" if m["category"] == "caution" else "同じ種類の手法と、損をしないための見分け方です。"
+    rows = "".join(
+        f'<li><a href="{esc(x["slug"])}.html">{esc(x["title"])}</a><span>{esc(x["summary"])}</span></li>'
+        for x in items
+    )
+    return f'<section class="related"><h2>次に読む</h2><p>{lead}</p><ul class="related-list">{rows}</ul></section>'
+
+
+def render_method(m, methods):
     body_html, nav = render_body(m["body"])
     spec_rows = [
         ("初期費用", esc(m["cost"])),
@@ -517,6 +544,7 @@ def render_method(m):
   {ad_slot()}
   {books}
   {sources}
+  {render_related(m, methods)}
   {quiz_cta}
   {share_block(m["title"], f"methods/{m['slug']}.html")}
   <p style="margin-top:2.5rem"><a href="../">もくじにもどる</a></p>
@@ -713,7 +741,7 @@ def build():
     (DOCS / "quiz").mkdir(parents=True, exist_ok=True)
     (DOCS / "quiz" / "index.html").write_text(render_quiz(), encoding="utf-8")
     for slug, m in methods.items():
-        (DOCS / "methods" / f"{slug}.html").write_text(render_method(m), encoding="utf-8")
+        (DOCS / "methods" / f"{slug}.html").write_text(render_method(m, methods), encoding="utf-8")
     n_urls = write_sitemap()
     print(f"生成しました: もくじ + 手法ページ {len(methods)}件 / sitemap {n_urls}件")
 

@@ -373,3 +373,10 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
 .share-btn:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
 .share-status { min-height: 1.5rem; margin: 0.5rem 0 0; font-size: 0.875rem; color: var(--good); }
 .doc .share-list { margin: 0.75rem 0 0; padding: 0; }
+
+.related { margin-top: 2.5rem; }
+.related h2 { font-size: 1.125rem; padding-bottom: 0.375rem; border-bottom: 3px double var(--edge); }
+.related-list { list-style: none; margin: 0.75rem 0 0; padding: 0; }
+.related-list li { padding: 0.625rem 0; border-bottom: 1px solid var(--edge); }
+.related-list a { font-weight: 700; display: block; }
+.related-list span { display: block; font-size: 0.875rem; margin-top: 0.125rem; }
