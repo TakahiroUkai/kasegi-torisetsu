@@ -255,7 +255,20 @@ def section_class(title):
     return ""
 
 
-def render_body(md):
+STOCK_URL = "https://takahiroukai.github.io/stock-memo2/"
+ANNA_URL = "https://takahiroukai.github.io/anna-konna-claude/"
+
+
+def sister_note(kind):
+    """他のサイトへの案内(投資の手法ページ→注目銘柄メモ、AI自動化の節→あんなことこんなことClaude)。"""
+    if kind == "invest":
+        return (f'<p class="sister">個別の銘柄の見方や、投資の用語を学びたい人には、姉妹サイトの '
+                f'<a href="{STOCK_URL}" rel="noopener">注目銘柄メモ</a>(別サイト)があります。</p>')
+    return (f'<p class="sister">AIへの頼み方を具体的に知りたい人には、姉妹サイトの '
+            f'<a href="{ANNA_URL}" rel="noopener">あんなことこんなことClaude</a>(別サイト)があります。</p>')
+
+
+def render_body(md, category=""):
     """h2 ごとに <section> に分け、(本文HTML, ページ内目次) を返す。"""
     sections, cur = [], {"title": None, "blocks": []}
     for b in to_blocks(md):
@@ -269,6 +282,11 @@ def render_body(md):
     out, nav, n = [], [], 0
     for sec in sections:
         inner = "".join(block_html(b) for b in sec["blocks"])
+        if sec["title"] and category != "caution":
+            if sec["title"].startswith("AIで自動化"):
+                inner += sister_note("ai")
+            elif sec["title"].startswith("始め方") and category == "invest":
+                inner += sister_note("invest")
         if sec["title"] is None:
             out.append(inner)
             continue
@@ -507,7 +525,7 @@ def render_related(m, methods):
 
 
 def render_method(m, methods):
-    body_html, nav = render_body(m["body"])
+    body_html, nav = render_body(m["body"], m["category"])
     spec_rows = [
         ("初期費用", esc(m["cost"])),
         ("収益化まで", esc(m["time_to_income"])),
