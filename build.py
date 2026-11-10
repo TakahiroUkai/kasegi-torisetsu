@@ -644,7 +644,7 @@ def render_index(methods):
   {share_block(CONFIG["name"], "")}
   {ad_slot()}
 </div>"""
-    return layout(CONFIG["name"], CONFIG["description"], body, "", False, "")
+    return layout("副業のやり方としくみ・リスク・詐欺の見分け方", CONFIG["description"], body, "", False, "")
 
 
 QUIZ_JS = r"""
@@ -724,7 +724,7 @@ def render_quiz():
 </div>
 <script type="application/json" id="quiz-data">{data}</script>
 <script>{QUIZ_JS}</script>"""
-    return layout("怪しい話に気づけるかクイズ", "SNSの広告やDMで届くもうけ話を見分けられるかを、選択式のクイズで確かめます。答えるたびに、解説と出典が出ます。", body, "../", False, "quiz/")
+    return layout("副業詐欺・もうけ話を見分けるクイズ", "SNSの広告やDMで届く副業・もうけ話が詐欺かどうか、見分けられるかを選択式のクイズで確かめます。答えるたびに、解説と公的機関などの出典が出ます。", body, "../", False, "quiz/")
 
 
 def write_sitemap():
