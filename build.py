@@ -435,6 +435,14 @@ def share_block(title, path):
     )
 
 
+def search_title(m):
+    """検索結果・共有時に出る題名。手法名のあとに、読者が検索しそうな言葉を足す(ページ内の見出しは変えない)。"""
+    t = m["title"]
+    if m["category"] == "caution":
+        return t if "見分け" in t else f"{t}の見分け方・相談先"
+    return f"{t}のやり方・費用・リスク"
+
+
 def layout(title, desc, body, root, show_disclosure, path=""):
     name = CONFIG["name"]
     full = name if title == name else f"{title} | {name}"
@@ -571,7 +579,7 @@ def render_method(m, methods):
   {share_block(m["title"], f"methods/{m['slug']}.html")}
   <p style="margin-top:2.5rem"><a href="../">もくじにもどる</a></p>
 </div>"""
-    return layout(m["title"], m["summary"], page, "../", False, f"methods/{m['slug']}.html")
+    return layout(search_title(m), m["summary"], page, "../", False, f"methods/{m['slug']}.html")
 
 
 def render_index(methods):
