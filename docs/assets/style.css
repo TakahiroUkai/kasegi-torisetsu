@@ -382,3 +382,6 @@ h1, h2, h3 { line-height: 1.45; margin: 0; }
 .related-list span { display: block; font-size: 0.875rem; margin-top: 0.125rem; }
 
 .sister { margin: 1rem 0 0; padding: 0.625rem 0.875rem; border-left: 3px solid var(--edge); background: rgba(0,0,0,0.03); font-size: 0.9rem; }
+.q-more { margin: 0.5rem 0 0; font-size: 0.9375rem; }
+.q-review { margin: 0.5rem 0 1rem; padding-left: 1.25rem; }
+.q-review li { margin: 0.25rem 0; }

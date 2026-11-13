@@ -670,10 +670,11 @@ QUIZ_JS = r"""
 (function () {
   var Q = JSON.parse(document.getElementById('quiz-data').textContent);
   var root = document.getElementById('quiz');
-  var idx = 0, score = 0, order = [];
+  var T = JSON.parse(document.getElementById('quiz-topics').textContent);
+  var idx = 0, score = 0, order = [], missed = [];
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
-  function start() { idx = 0; score = 0; order = shuffle(Q.map(function (_, i) { return i; })); show(); }
+  function start() { idx = 0; score = 0; missed = []; order = shuffle(Q.map(function (_, i) { return i; })); show(); }
   function show() {
     if (idx >= order.length) return result();
     var q = Q[order[idx]];
@@ -697,11 +698,13 @@ QUIZ_JS = r"""
     });
     var ok = opts[pick].ok;
     if (ok) score++;
+    else if (q.topic && T[q.topic] && missed.indexOf(q.topic) < 0) missed.push(q.topic);
+    var more = (q.topic && T[q.topic]) ? '<p class="q-more">くわしくは: <a href="../methods/' + esc(q.topic) + '.html">' + esc(T[q.topic]) + '</a></p>' : '';
     var last = idx + 1 >= order.length;
     var src = q.source ? '<p class="q-src">出典: <a href="' + esc(q.source[1]) + '" rel="noopener" target="_blank">' + esc(q.source[0]) + '</a></p>' : '';
     var fb = document.getElementById('q-fb');
     fb.innerHTML = '<p class="q-verdict ' + (ok ? 'ok' : 'ng') + '">' + (ok ? '正解です。' : '惜しい。正解は、色のついた選択肢です。') + '</p>' +
-      '<p>' + esc(q.explain) + '</p>' + src +
+      '<p>' + esc(q.explain) + '</p>' + src + more +
       '<button type="button" class="q-next" id="q-next">' + (last ? '結果を見る' : '次の問題へ') + '</button>';
     document.getElementById('q-next').addEventListener('click', function () { idx++; show(); window.scrollTo(0, root.getBoundingClientRect().top + window.pageYOffset - 16); });
     document.getElementById('q-next').focus();
@@ -711,7 +714,9 @@ QUIZ_JS = r"""
     if (score === n) msg = '全問正解です。どの話にも、まず止まって確かめる習慣が身についています。';
     else if (score >= n * 0.7) msg = 'よくできています。間違えた問題の解説を、もう一度見ておきましょう。';
     else msg = '見分けるポイントは、これから身につけられます。解説と出典を読んで、もう一度挑戦してみてください。';
-    root.innerHTML = '<p class="q-count">結果</p><p class="q-score"><strong>' + score + '</strong> / ' + n + ' 問正解</p><p>' + msg + '</p>' +
+    var review = missed.length ? '<p>間違えた問題に出た話は、次のページで読み返せます。</p><ul class="q-review">' + missed.map(function (t) {
+      return '<li><a href="../methods/' + esc(t) + '.html">' + esc(T[t]) + '</a></li>'; }).join('') + '</ul>' : '';
+    root.innerHTML = '<p class="q-count">結果</p><p class="q-score"><strong>' + score + '</strong> / ' + n + ' 問正解</p><p>' + msg + '</p>' + review +
       '<p>困ったときは、消費者ホットライン「188」(最寄りの消費生活センターなどにつながります)や、警察相談専用窓口「#9110」に相談できます。</p>' +
       '<button type="button" class="q-next" id="q-again">もう一度挑戦する</button>';
     document.getElementById('q-again').addEventListener('click', start);
@@ -724,6 +729,8 @@ QUIZ_JS = r"""
 def render_quiz():
     quiz = json.loads((ROOT / "data" / "quiz.json").read_text(encoding="utf-8"))
     data = json.dumps(quiz, ensure_ascii=False).replace("</", "<\\/")
+    topics = {slug: m["title"] for slug, m in load_methods().items()}
+    topic_data = json.dumps(topics, ensure_ascii=False).replace("</", "<\\/")
     body = f"""<div class="wrap doc cat-caution">
   <div class="doc-head">
     <p class="caution-banner">稼ぎ方ではなく、手を出してはいけない話(怪しい話・違法な話)を見分けるためのクイズです</p>
@@ -742,6 +749,7 @@ def render_quiz():
   <p><a href="../">もくじにもどる</a></p>
 </div>
 <script type="application/json" id="quiz-data">{data}</script>
+<script type="application/json" id="quiz-topics">{topic_data}</script>
 <script>{QUIZ_JS}</script>"""
     return layout("副業詐欺・もうけ話を見分けるクイズ", "SNSの広告やDMで届く副業・もうけ話が詐欺かどうか、見分けられるかを選択式のクイズで確かめます。答えるたびに、解説と公的機関などの出典が出ます。", body, "../", False, "quiz/")
 
