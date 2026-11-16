@@ -765,27 +765,27 @@ def render_help():
     rows = [
         ("消費者ホットライン「188」", "188", "tel:188",
          "最寄りの消費生活センターなどを案内する全国共通の番号です。相談は無料ですが、窓口につながった時点から通話料がかかります。",
-         "受付時間は窓口ごとに異なります。土日祝日は、国民生活センターの休日相談(10時〜16時)も使えます(年末年始などを除く)。",
+         "受付時間は窓口ごとに異なります。土日祝日は、地元の窓口が開いていないとき、国民生活センターが相談を補う案内があります(年末年始などを除く)。曜日と時間は、国民生活センターのページで確認してください。",
          "契約・支払いの前の迷い、払ってしまったあとの相談、どちらも。",
-         "https://www.caa.go.jp/policies/policy/local_cooperation/local_consumer_administration/hotline/", "消費者庁「消費者ホットライン」"),
+         [("https://www.caa.go.jp/policies/policy/local_cooperation/local_consumer_administration/hotline/", "消費者庁「消費者ホットライン」"), ("https://www.kokusen.go.jp/map/weekend_madoguchi.html", "国民生活センター「土曜、日曜、祝日に利用できる相談窓口」")]),
         ("警察相談専用電話「#9110」", "#9110", "tel:%239110",
          "緊急ではない相談を受け付ける短縮ダイヤルです。通常の通話料がかかります。いままさに被害に遭っているときは110番です。",
          "受付時間は都道府県の警察ごとに異なります。公式サイトで確認してください。",
          "だまされたかもしれない、脅された、勧誘が続くなど。",
-         "https://www.keishicho.metro.tokyo.lg.jp/sodan/madoguchi/sogo.html", "警視庁「相談ホットラインのご案内」"),
+         [("https://www.keishicho.metro.tokyo.lg.jp/sodan/madoguchi/sogo.html", "警視庁「相談ホットラインのご案内」")]),
         ("金融庁「詐欺的な投資に関する相談ダイヤル」", "0570-050588", "tel:0570050588",
          "IP電話からは 03-6206-6066。ナビダイヤルです。ウェブサイトからは24時間受け付けています。",
          "電話は平日10時〜17時です。",
          "投資や運用をうたう勧誘に不審を感じたとき、損をしてしまったとき。他機関の紹介や論点の整理が中心で、個別の取引のあっせん・仲介・調停はしないとされています。",
-         "https://www.fsa.go.jp/ordinary/chuui/attention.html", "金融庁「詐欺的な投資勧誘等にご注意ください!」"),
+         [("https://www.fsa.go.jp/ordinary/chuui/attention.html", "金融庁「詐欺的な投資勧誘等にご注意ください!」"), ("https://www.fsa.go.jp/news/r5/sonota/20240619/toshisagi.html", "金融庁「詐欺的な投資に関する相談ダイヤル」の開設について")]),
     ]
     cards = "".join(
         f'<li class="help-card"><h3>{esc(n)}</h3>'
         f'<p class="help-tel"><a href="{t}">{esc(num)}</a>に電話する</p>'
         f'<p>{esc(what)}</p><p><strong>受付時間:</strong> {esc(hours)}</p>'
         f'<p><strong>相談できること:</strong> {esc(topic)}</p>'
-        f'<p class="help-src">公式: <a href="{u}" target="_blank" rel="noopener noreferrer">{esc(ut)}</a></p></li>'
-        for n, num, t, what, hours, topic, u, ut in rows
+        f'<p class="help-src">公式: ' + "、".join(f'<a href="{u}" target="_blank" rel="noopener noreferrer">{esc(ut)}</a>' for u, ut in srcs) + '</p></li>'
+        for n, num, t, what, hours, topic, srcs in rows
     )
     body = f"""<div class="wrap doc cat-caution">
   <div class="doc-head">
