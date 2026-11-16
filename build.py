@@ -569,7 +569,7 @@ def render_method(m, methods):
         + "</ul></section>"
     )
     is_caution = m["category"] == "caution"
-    quiz_cta = '<p class="quiz-link"><a href="../quiz/">クイズ: 怪しい話に気づけるか、選択式で確かめる</a></p>' if m["category"] == "caution" else ""
+    quiz_cta = '<p class="quiz-link"><a href="../quiz/">クイズ: 怪しい話に気づけるか、選択式で確かめる</a></p><p class="quiz-link"><a href="../help/">お金を払う前・払ってしまったあとの相談先</a></p>' if m["category"] == "caution" else ""
     banner = '<p class="caution-banner">稼ぎ方ではなく、手を出してはいけない話(怪しい話・違法な話)の解説です</p>' if is_caution else ""
     page = f"""<div class="wrap doc{" cat-caution" if is_caution else ""}">
   <div class="doc-head">
@@ -633,6 +633,10 @@ def render_index(methods):
     start_items = "".join(
         f'<li><strong>{esc(q)}</strong><br><a href="methods/{slug}.html">{esc(t)}</a>: {esc(d)}</li>'
         for q, slug, t, d in start_defs if slug in methods
+    )
+    start_items += (
+        '<li><strong>お金を払うよう言われた・払ってしまった</strong><br>'
+        '<a href="help/">お金を払う前・払ってしまったあとの相談先</a>: 確認する順番と、相談窓口の番号・受付時間をまとめています。</li>'
     )
     start_html = (
         f'<section class="howto start-here"><h2>迷ったら、ここから</h2><ul>{start_items}</ul></section>'
@@ -746,12 +750,81 @@ def render_quiz():
   {ad_slot()}
   <p class="quiz-note">問題の内容は、消費者庁・国民生活センター・警察庁・金融庁などの公開情報をもとにしています。個別の相談は、消費者ホットライン「188」などの窓口にしてください。</p>
   <p style="margin-top:2.5rem"><a href="../methods/suspicious-claims.html">「怪しい稼ぎ話の見分け方」のページを読む</a></p>
+  <p><a href="../help/">お金を払う前・払ってしまったあとの相談先を見る</a></p>
   <p><a href="../">もくじにもどる</a></p>
 </div>
 <script type="application/json" id="quiz-data">{data}</script>
 <script type="application/json" id="quiz-topics">{topic_data}</script>
 <script>{QUIZ_JS}</script>"""
     return layout("副業詐欺・もうけ話を見分けるクイズ", "SNSの広告やDMで届く副業・もうけ話が詐欺かどうか、見分けられるかを選択式のクイズで確かめます。答えるたびに、解説と公的機関などの出典が出ます。", body, "../", False, "quiz/")
+
+
+def render_help():
+    """お金を払う前・払ってしまった後の相談先と動き方(公式ページで確認した内容。確認日を本文に書く)。"""
+    checked = "2026年11月16日"
+    rows = [
+        ("消費者ホットライン「188」", "188", "tel:188",
+         "最寄りの消費生活センターなどを案内する全国共通の番号です。相談は無料ですが、窓口につながった時点から通話料がかかります。",
+         "受付時間は窓口ごとに異なります。土日祝日は、国民生活センターの休日相談(10時〜16時)も使えます(年末年始などを除く)。",
+         "契約・支払いの前の迷い、払ってしまったあとの相談、どちらも。",
+         "https://www.caa.go.jp/policies/policy/local_cooperation/local_consumer_administration/hotline/", "消費者庁「消費者ホットライン」"),
+        ("警察相談専用電話「#9110」", "#9110", "tel:%239110",
+         "緊急ではない相談を受け付ける短縮ダイヤルです。通常の通話料がかかります。いままさに被害に遭っているときは110番です。",
+         "受付時間は都道府県の警察ごとに異なります。公式サイトで確認してください。",
+         "だまされたかもしれない、脅された、勧誘が続くなど。",
+         "https://www.keishicho.metro.tokyo.lg.jp/sodan/madoguchi/sogo.html", "警視庁「相談ホットラインのご案内」"),
+        ("金融庁「詐欺的な投資に関する相談ダイヤル」", "0570-050588", "tel:0570050588",
+         "IP電話からは 03-6206-6066。ナビダイヤルです。ウェブサイトからは24時間受け付けています。",
+         "電話は平日10時〜17時です。",
+         "投資や運用をうたう勧誘に不審を感じたとき、損をしてしまったとき。他機関の紹介や論点の整理が中心で、個別の取引のあっせん・仲介・調停はしないとされています。",
+         "https://www.fsa.go.jp/ordinary/chuui/attention.html", "金融庁「詐欺的な投資勧誘等にご注意ください!」"),
+    ]
+    cards = "".join(
+        f'<li class="help-card"><h3>{esc(n)}</h3>'
+        f'<p class="help-tel"><a href="{t}">{esc(num)}</a>に電話する</p>'
+        f'<p>{esc(what)}</p><p><strong>受付時間:</strong> {esc(hours)}</p>'
+        f'<p><strong>相談できること:</strong> {esc(topic)}</p>'
+        f'<p class="help-src">公式: <a href="{u}" target="_blank" rel="noopener noreferrer">{esc(ut)}</a></p></li>'
+        for n, num, t, what, hours, topic, u, ut in rows
+    )
+    body = f"""<div class="wrap doc cat-caution">
+  <div class="doc-head">
+    <p class="caution-banner">稼ぎ方ではなく、お金のトラブルを避ける・小さくするための案内です</p>
+    <p class="crumb"><a href="../">もくじ</a></p>
+    <h1>お金を払う前・払ってしまったあとの相談先</h1>
+    <p class="summary">「先にお金を払えば稼げる」と言われたとき、すでに払ってしまったときに、何を確かめ、どこに相談するかを順番にまとめました。窓口の番号と受付時間は、{checked}に公式ページで確認した内容です。変わることがあるため、かける前に公式ページでも確かめてください。</p>
+    <ul class="inpage"><li><a href="#before">払う前</a></li><li><a href="#after">払ってしまったあと</a></li><li><a href="#desk">相談窓口</a></li></ul>
+  </div>
+  <section id="before">
+    <h2>払う前に迷っているとき</h2>
+    <ol>
+      <li><strong>その場で払わない。</strong>「今日中」「残りわずか」と急かされても、返事は待ってもらえます。急かされること自体が、見直すきっかけになります。</li>
+      <li><strong>お金を払う相手と理由を、自分の言葉で言えるか確かめます。</strong>運営者の名前・住所・連絡先、何に対して払うのか、いつ何が受け取れるのかが書かれていなければ、先に進まないでください。</li>
+      <li><strong>払い方を見ます。</strong>個人名義の口座への振込、電子マネーのコードを送る方法、暗号資産での支払いを求められたときは、立ち止まって相談してください。</li>
+      <li><strong>1人で決めず、窓口に聞きます。</strong>消費者ホットライン「188」は、契約する前の相談もできます。</li>
+    </ol>
+    <p>話の見分け方は、<a href="../methods/suspicious-claims.html">怪しい稼ぎ話の見分け方</a>で、手口ごとの特徴は各ページで読めます。<a href="../quiz/">クイズ</a>で確かめることもできます。</p>
+  </section>
+  <section id="after">
+    <h2>お金を払ってしまったあと</h2>
+    <ol>
+      <li><strong>それ以上、払わない。</strong>「解約には手数料が要る」「被害を取り戻すために費用が要る」と、さらに払うよう求められても、応じる前に相談してください。</li>
+      <li><strong>証拠を残す。</strong>やり取りの画面(メッセージ、広告、相手のアカウント名)、送金の控え、契約書や申込画面を、削除せずに保存します。</li>
+      <li><strong>相手に個人情報を、これ以上渡さない。</strong>免許証や口座の情報をすでに送ったときは、そのことも相談時に伝えます。</li>
+      <li><strong>早めに相談する。</strong>契約の種類によっては、契約を取り消せる期間が決まっています。期間や条件は契約ごとに違うため、窓口で確認してください。</li>
+      <li><strong>お金が戻るとうたう連絡に注意する。</strong>被害を取り戻すと持ちかける連絡が、新たな勧誘のことがあります。応じる前に、188や警察に相談してください。</li>
+    </ol>
+    <p>ここに書いたのは一般的な進め方です。個別の事情で変わるため、法律上の判断が必要なときは、窓口や弁護士などの専門家に相談してください。</p>
+  </section>
+  <section id="desk">
+    <h2>相談窓口(確認日 {checked})</h2>
+    <ul class="help-list">{cards}</ul>
+    <p>番号は、スマホでは押すとそのまま電話をかけられます。通話料は、お使いの電話の契約によって変わります。</p>
+  </section>
+  {share_block("お金を払う前・払ってしまったあとの相談先", "help/")}
+  <p style="margin-top:2.5rem"><a href="../">もくじにもどる</a></p>
+</div>"""
+    return layout("お金を払う前・払ってしまったあとの相談先", "副業・もうけ話で先にお金を払うよう求められたとき、払ってしまったときの確認手順と、消費者ホットライン188・警察相談専用電話#9110・金融庁の相談ダイヤルの番号と受付時間をまとめました。", body, "../", False, "help/")
 
 
 def write_sitemap():
@@ -789,6 +862,8 @@ def build():
     (DOCS / "index.html").write_text(render_index(methods), encoding="utf-8")
     (DOCS / "quiz").mkdir(parents=True, exist_ok=True)
     (DOCS / "quiz" / "index.html").write_text(render_quiz(), encoding="utf-8")
+    (DOCS / "help").mkdir(parents=True, exist_ok=True)
+    (DOCS / "help" / "index.html").write_text(render_help(), encoding="utf-8")
     for slug, m in methods.items():
         (DOCS / "methods" / f"{slug}.html").write_text(render_method(m, methods), encoding="utf-8")
     n_urls = write_sitemap()
