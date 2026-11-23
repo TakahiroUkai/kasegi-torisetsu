@@ -827,10 +827,17 @@ def render_help():
     return layout("お金を払う前・払ってしまったあとの相談先", "副業・もうけ話で先にお金を払うよう求められたとき、払ってしまったときの確認手順と、消費者ホットライン188・警察相談専用電話#9110・金融庁の相談ダイヤルの番号と受付時間をまとめました。", body, "../", False, "help/")
 
 
-def write_sitemap():
+def write_sitemap(methods=()):
     """docs/ にある公開ページから sitemap.xml と robots.txt を作る(毎回のビルドで更新される)。"""
     base = CONFIG["base_url"].rstrip("/") + "/"
     urls = set()
+    # 手法ページは、本文の updated(最終確認日)を lastmod に入れる。もくじは、その最新の日付。
+    lastmod = {}
+    for m in (methods.values() if isinstance(methods, dict) else methods):
+        if m.get("updated"):
+            lastmod[base + f"methods/{m['slug']}.html"] = str(m["updated"])
+    if lastmod:
+        lastmod[base] = max(lastmod.values())
     for p in DOCS.rglob("*.html"):
         if p.name.startswith("google"):
             continue
@@ -840,7 +847,9 @@ def write_sitemap():
         elif rel.endswith("/index.html"):
             rel = rel[: -len("index.html")]
         urls.add(base + rel)
-    body = "".join(f"<url><loc>{html.escape(u)}</loc></url>" for u in sorted(urls))
+    body = "".join(
+        f"<url><loc>{html.escape(u)}</loc>" + (f"<lastmod>{lastmod[u]}</lastmod>" if u in lastmod else "") + "</url>"
+        for u in sorted(urls))
     (DOCS / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>\n', encoding="utf-8")
@@ -866,7 +875,7 @@ def build():
     (DOCS / "help" / "index.html").write_text(render_help(), encoding="utf-8")
     for slug, m in methods.items():
         (DOCS / "methods" / f"{slug}.html").write_text(render_method(m, methods), encoding="utf-8")
-    n_urls = write_sitemap()
+    n_urls = write_sitemap(methods)
     print(f"生成しました: もくじ + 手法ページ {len(methods)}件 / sitemap {n_urls}件")
 
 
